@@ -20,5 +20,6 @@ public class Product {
     @GeneratedValue(generator = "seq_product")
     private UUID id;
 
+    @Column(unique = true)
     private String name;
 }

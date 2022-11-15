@@ -1,6 +1,5 @@
 package com.yougrocery.yougrocery.services;
 
-import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.models.Product;
 import com.yougrocery.yougrocery.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
