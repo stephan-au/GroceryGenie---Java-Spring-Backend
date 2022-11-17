@@ -22,7 +22,7 @@ public class GrocerylistController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Grocerylist> get(@PathVariable("id") long id) {
+    public ResponseEntity<Grocerylist> get(@PathVariable("id") int id) {
         return ResponseEntity.ok(grocerylistService.findById(id));
     }
 
@@ -32,7 +32,7 @@ public class GrocerylistController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> delete(@PathVariable("id") long id) {
+    public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
         grocerylistService.delete(id);
 
         return ResponseEntity.ok(id);

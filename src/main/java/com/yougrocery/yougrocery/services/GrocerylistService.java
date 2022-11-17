@@ -19,11 +19,11 @@ public class GrocerylistService {
     }
 
     //TODO nice error if not exist
-    public Grocerylist findById(long id) {
+    public Grocerylist findById(int id) {
         return grocerylistRepository.findById(id).get();
     }
 
-    public void delete(long id) {
+    public void delete(int id) {
         grocerylistRepository.deleteById(id);
     }
 }

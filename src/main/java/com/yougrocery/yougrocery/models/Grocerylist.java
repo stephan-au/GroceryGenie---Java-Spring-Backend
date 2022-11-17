@@ -14,9 +14,12 @@ import javax.persistence.*;
 public class Grocerylist {
     @Id
     @GeneratedValue(generator = "seq_grocerylist")
-    private long id;
+    private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
+    public Grocerylist(String name) {
+        this.name = name;
+    }
 }
