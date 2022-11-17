@@ -86,6 +86,30 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+				<version>2.1.0</version>
+
+				<configuration>
+					<packages>
+						<param>com.yougrocery.yougrocery</param>
+					</packages>
+					<includes>
+						<param>.*DTO</param>
+						<param>.*models.*</param>
+					</includes>
+
+
+					<generateAssertionsForAllFields>true</generateAssertionsForAllFields>
+					<!-- Where to generate assertions entry point classes -->
+					<entryPointClassPackage>org.assertj</entryPointClassPackage>
+					<!-- Sets the base directory where to generate assertions -->
+					<targetDir>src/test/java</targetDir>
+                    <!-- Select which assertions entry point classes to generate-->
+					<generateAssertions>true</generateAssertions>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
