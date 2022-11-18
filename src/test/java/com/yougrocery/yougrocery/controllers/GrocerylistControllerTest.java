@@ -10,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.yougrocery.yougrocery.controllers.ResponseBodyMatchers.responseBody;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,7 +41,7 @@ class GrocerylistControllerTest {
                         responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
 
         //Assert
-        verify(grocerylistService, atMostOnce())
+        verify(grocerylistService)
                 .save(argThat(
                         //TODO deze assert werkt nog niet goed. De naam kan alles zijn.
                         aGrocerylist -> aGrocerylist.getName().equals("Test name dwadwada1")));
@@ -61,7 +60,7 @@ class GrocerylistControllerTest {
                         responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
 
         //Assert
-        verify(grocerylistService, atMostOnce()).findById(1);
+        verify(grocerylistService).findById(1);
     }
 
     @Test
@@ -79,9 +78,8 @@ class GrocerylistControllerTest {
                         responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
 
         //Assert
-        verify(grocerylistService, atMostOnce())
-                .save(argThat(
-                        aGrocerylist -> aGrocerylist.getName().equals("Test name1")));
+        verify(grocerylistService)
+                .save(argThat(aGrocerylist -> aGrocerylist.getName().equals("Test name1")));
     }
 
     @Test
