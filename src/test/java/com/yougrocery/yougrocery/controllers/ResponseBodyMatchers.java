@@ -34,6 +34,12 @@ class ResponseBodyMatchers {
     }
 
     private static String getJson(MvcResult mvcResult) throws UnsupportedEncodingException {
-        return mvcResult.getResponse().getContentAsString();
+        String content = mvcResult.getResponse().getContentAsString();
+
+        if (content.isEmpty()) {
+            throw new NullPointerException("Mvc result is empty. Make sure to stub used Mocks correctly in the test.");
+        }
+
+        return content;
     }
 }
