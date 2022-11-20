@@ -15,8 +15,6 @@ import org.springframework.dao.DuplicateKeyException;
 
 import javax.persistence.EntityNotFoundException;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-
 import static org.assertj.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
