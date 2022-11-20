@@ -41,6 +41,17 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link com.yougrocery.yougrocery.models.ProductOnGrocerylistProductOnGrocerylistBuilderAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @org.assertj.core.util.CheckReturnValue
+  public static com.yougrocery.yougrocery.models.ProductOnGrocerylistProductOnGrocerylistBuilderAssert assertThat(com.yougrocery.yougrocery.models.ProductOnGrocerylist.ProductOnGrocerylistBuilder actual) {
+    return new com.yougrocery.yougrocery.models.ProductOnGrocerylistProductOnGrocerylistBuilderAssert(actual);
+  }
+
+  /**
    * Creates a new <code>{@link Assertions}</code>.
    */
   protected Assertions() {

@@ -8,9 +8,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -51,6 +53,18 @@ class GrocerylistServiceTest {
         //Assert
         verify(grocerylistRepository).findById(1);
         assertThat(actual).hasName("Test 12345");
+    }
+
+    @Test
+    void findByIdOnNonExsistingGrocerylist_throwsNoSuchElementException() {
+        //Arrange
+        Grocerylist expected = new Grocerylist("Test 12345");
+        when(grocerylistRepository.findById(1)).thenReturn(Optional.empty());
+
+        //Act
+        assertThrows(
+                NoSuchElementException.class,
+                () -> grocerylistService.findById(1));
     }
 
     @Test

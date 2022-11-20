@@ -3,8 +3,10 @@ package com.yougrocery.yougrocery.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
@@ -21,5 +23,15 @@ public class Grocerylist {
 
     public Grocerylist(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+
+        Grocerylist that = (Grocerylist) o;
+        return Objects.equals(this.id, that.id)
+                && Objects.equals(this.name, that.name);
     }
 }

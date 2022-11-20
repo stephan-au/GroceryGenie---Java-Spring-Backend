@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -18,9 +19,11 @@ public class GrocerylistService {
         return grocerylistRepository.save(groceryList);
     }
 
-    //TODO nice error if not exist
     public Grocerylist findById(int id) {
-        return grocerylistRepository.findById(id).get();
+        return grocerylistRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new NoSuchElementException("Grocerylist with id: " + id + " doesn't exist"));
     }
 
     public void delete(int id) {
