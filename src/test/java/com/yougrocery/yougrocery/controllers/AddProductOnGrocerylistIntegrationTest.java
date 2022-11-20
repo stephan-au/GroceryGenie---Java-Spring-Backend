@@ -39,7 +39,7 @@ public class AddProductOnGrocerylistIntegrationTest {
         Grocerylist expectedGrocerylist = saveGrocerylist("Grocerylist 1");
 
         //Act
-        mockMvc.perform(post("/api/grocerylist/{id}/add_product/{product_name}",
+        mockMvc.perform(post("/api/product_on_grocerylist/grocerylist/{id}/product/{product_name}",
                         expectedGrocerylist.getId(),
                         expectedProductName))
                 .andExpectAll(status().isCreated());

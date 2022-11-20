@@ -24,16 +24,6 @@ public class GrocerylistController {
                 HttpStatus.CREATED);
     }
 
-    @PostMapping("/{id}/add_product/{product_name}")
-    public ResponseEntity<ProductOnGrocerylist> addProductToGrocerylist(
-            @PathVariable("id") int grocerylistId,
-            @PathVariable("product_name") String productName) {
-
-        return new ResponseEntity<>(
-                productOnGrocerylistService.addProductOnGrocerylist(productName, grocerylistId),
-                HttpStatus.CREATED);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Grocerylist> get(@PathVariable("id") int id) {
         return ResponseEntity.ok(grocerylistService.findById(id));
