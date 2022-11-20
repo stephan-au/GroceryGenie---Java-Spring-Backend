@@ -100,7 +100,6 @@
 						<param>.*models.*</param>
 					</includes>
 
-
 					<generateAssertionsForAllFields>true</generateAssertionsForAllFields>
 					<!-- Where to generate assertions entry point classes -->
 					<entryPointClassPackage>org.assertj</entryPointClassPackage>
@@ -108,6 +107,9 @@
 					<targetDir>src/test/java</targetDir>
                     <!-- Select which assertions entry point classes to generate-->
 					<generateAssertions>true</generateAssertions>
+					<generateBddAssertions>false</generateBddAssertions>
+					<generateSoftAssertions>false</generateSoftAssertions>
+					<generateJUnitSoftAssertions>false</generateJUnitSoftAssertions>
 				</configuration>
 			</plugin>
 		</plugins>
