@@ -23,16 +23,16 @@ public abstract class AbstractProductAssert<S extends AbstractProductAssert<S, A
    * @return this assertion object.
    * @throws AssertionError - if the actual Product's id is not equal to the given one.
    */
-  public S hasId(java.util.UUID id) {
+  public S hasId(int id) {
     // check that actual Product we want to make assertions on is not null.
     isNotNull();
 
     // overrides the default error message with a more explicit one
     String assertjErrorMessage = "\nExpecting id of:\n  <%s>\nto be:\n  <%s>\nbut was:\n  <%s>";
 
-    // null safe check
-    java.util.UUID actualId = actual.getId();
-    if (!Objects.areEqual(actualId, id)) {
+    // check
+    int actualId = actual.getId();
+    if (actualId != id) {
       failWithMessage(assertjErrorMessage, actual, id, actualId);
     }
 

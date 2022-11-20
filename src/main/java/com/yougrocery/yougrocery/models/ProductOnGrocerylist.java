@@ -1,12 +1,11 @@
 package com.yougrocery.yougrocery.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.UUID;
 
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,7 +16,7 @@ import java.util.UUID;
 public class ProductOnGrocerylist {
     @Id
     @GeneratedValue(generator = "seq_productongrocerylist")
-    private UUID id;
+    private int id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", nullable = false)
@@ -26,4 +25,12 @@ public class ProductOnGrocerylist {
     @ManyToOne(optional = false)
     @JoinColumn(name = "grocery_list_id", nullable = false)
     private Grocerylist groceryList;
+
+    private int amount;
+
+    public ProductOnGrocerylist(Product product, Grocerylist groceryList, int amount) {
+        this.product = product;
+        this.groceryList = groceryList;
+        this.amount = amount;
+    }
 }

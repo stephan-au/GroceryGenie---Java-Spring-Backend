@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/product")
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> get(@PathVariable("id") UUID id) {
+    public ResponseEntity<Product> get(@PathVariable("id") int id) {
         return ResponseEntity.ok(productService.findById(id));
     }
 
@@ -34,7 +32,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UUID> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
         productService.delete(id);
 
         return ResponseEntity.ok(id);

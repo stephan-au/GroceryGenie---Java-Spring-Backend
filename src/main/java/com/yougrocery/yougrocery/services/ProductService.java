@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.UUID;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -18,11 +18,20 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product findById(UUID id) {
+    public Product findOrCreateProduct(String productName) {
+        return findByName(productName)
+                .orElseGet(() -> save(new Product(productName)));
+    }
+
+    private Optional<Product> findByName(String name){
+        return productRepository.findByName(name);
+    }
+
+    public Product findById(int id) {
         return productRepository.findById(id).get();
     }
 
-    public void delete(UUID id) {
+    public void delete(int id) {
         productRepository.deleteById(id);
     }
 }

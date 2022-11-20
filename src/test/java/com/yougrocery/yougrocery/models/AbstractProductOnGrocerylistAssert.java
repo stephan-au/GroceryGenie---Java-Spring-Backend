@@ -18,6 +18,29 @@ public abstract class AbstractProductOnGrocerylistAssert<S extends AbstractProdu
   }
 
   /**
+   * Verifies that the actual ProductOnGrocerylist's amount is equal to the given one.
+   * @param amount the given amount to compare the actual ProductOnGrocerylist's amount to.
+   * @return this assertion object.
+   * @throws AssertionError - if the actual ProductOnGrocerylist's amount is not equal to the given one.
+   */
+  public S hasAmount(int amount) {
+    // check that actual ProductOnGrocerylist we want to make assertions on is not null.
+    isNotNull();
+
+    // overrides the default error message with a more explicit one
+    String assertjErrorMessage = "\nExpecting amount of:\n  <%s>\nto be:\n  <%s>\nbut was:\n  <%s>";
+
+    // check
+    int actualAmount = actual.getAmount();
+    if (actualAmount != amount) {
+      failWithMessage(assertjErrorMessage, actual, amount, actualAmount);
+    }
+
+    // return the current assertion for method chaining
+    return myself;
+  }
+
+  /**
    * Verifies that the actual ProductOnGrocerylist's groceryList is equal to the given one.
    * @param groceryList the given groceryList to compare the actual ProductOnGrocerylist's groceryList to.
    * @return this assertion object.
@@ -46,16 +69,16 @@ public abstract class AbstractProductOnGrocerylistAssert<S extends AbstractProdu
    * @return this assertion object.
    * @throws AssertionError - if the actual ProductOnGrocerylist's id is not equal to the given one.
    */
-  public S hasId(java.util.UUID id) {
+  public S hasId(int id) {
     // check that actual ProductOnGrocerylist we want to make assertions on is not null.
     isNotNull();
 
     // overrides the default error message with a more explicit one
     String assertjErrorMessage = "\nExpecting id of:\n  <%s>\nto be:\n  <%s>\nbut was:\n  <%s>";
 
-    // null safe check
-    java.util.UUID actualId = actual.getId();
-    if (!Objects.areEqual(actualId, id)) {
+    // check
+    int actualId = actual.getId();
+    if (actualId != id) {
       failWithMessage(assertjErrorMessage, actual, id, actualId);
     }
 
