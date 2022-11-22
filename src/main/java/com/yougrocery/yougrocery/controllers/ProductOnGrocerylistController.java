@@ -27,7 +27,9 @@ public class ProductOnGrocerylistController {
     }
 
     @GetMapping("/grocerylist/{grocerylist_id}")
-    public ResponseEntity<List<ProductOnGrocerylist>> get(@PathVariable("grocerylist_id") int grocerylistId) {
+    public ResponseEntity<List<ProductOnGrocerylist>> getProductsOnGrocerylist(
+            @PathVariable("grocerylist_id") int grocerylistId) {
+
         return ResponseEntity.ok(productOnGrocerylistService.findByGroceryListId(grocerylistId));
     }
 

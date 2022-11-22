@@ -10,9 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+
 import static com.yougrocery.yougrocery.controllers.ResponseBodyMatchers.responseBody;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,7 +30,7 @@ class ProductOnGrocerylistControllerTest {
 
 
     @Test
-    void createGrocerylistWorks() throws Exception {
+    void addProductOnGrocerylist_works() throws Exception {
         //Arrange
         var grocerylist = new Grocerylist("Test name 1");
         var product = new Product("Product name 1");
@@ -48,5 +51,21 @@ class ProductOnGrocerylistControllerTest {
         //Assert
         verify(productOnGrocerylistService)
                 .addProductOnGrocerylist(product.getName(), grocerylist.getId());
+    }
+
+    @Test
+    void findProductsOnGrocerylist_works() throws Exception {
+        //Arrange
+        var grocerylist = new Grocerylist("Test name 1");
+
+        //Act
+        mockMvc.perform(get(
+                        "/api/product_on_grocerylist/grocerylist/{grocerylist_id}",
+                        grocerylist.getId()))
+                .andExpectAll(status().isOk());
+
+        //Assert
+        verify(productOnGrocerylistService)
+                .findByGroceryListId(grocerylist.getId());
     }
 }
