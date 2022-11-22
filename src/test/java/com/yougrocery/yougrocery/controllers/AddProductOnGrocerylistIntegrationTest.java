@@ -62,7 +62,7 @@ public class AddProductOnGrocerylistIntegrationTest {
     }
 
     private List<ProductOnGrocerylist> findProductsOnGrocerylist(Grocerylist grocerylist) {
-        return productOnGrocerylistRepository.findByGroceryList_Id(grocerylist.getId());
+        return productOnGrocerylistRepository.findByGroceryListId(grocerylist.getId());
     }
 
 }

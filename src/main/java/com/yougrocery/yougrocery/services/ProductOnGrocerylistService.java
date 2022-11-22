@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -29,7 +30,9 @@ public class ProductOnGrocerylistService {
                         .build());
     }
 
-
+    public List<ProductOnGrocerylist> findByGroceryListId(int groceryListId) {
+        return productOnGrocerylistRepo.findByGroceryListId(groceryListId);
+    }
 
     private Product findOrCreateProduct(String productName) {
         return productService.findOrCreateProduct(productName);

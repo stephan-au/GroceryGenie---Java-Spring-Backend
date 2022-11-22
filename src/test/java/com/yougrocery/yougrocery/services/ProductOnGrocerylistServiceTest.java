@@ -110,6 +110,13 @@ class ProductOnGrocerylistServiceTest {
         verify(productOnGrocerylistRepo, times(2)).save(any());
     }
 
+    @Test
+    void getProductsOnGrocerylistByGrocerylistId_Works() {
+        productOnGrocerylistService.findByGroceryListId(1);
+
+        verify(productOnGrocerylistRepo).findByGroceryListId(1);
+    }
+
     private Grocerylist getGrocerylistById(int id) {
         return grocerylistService.findById(id);
     }

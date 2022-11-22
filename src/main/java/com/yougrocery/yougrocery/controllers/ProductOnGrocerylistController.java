@@ -5,10 +5,9 @@ import com.yougrocery.yougrocery.services.ProductOnGrocerylistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/product_on_grocerylist")
@@ -27,11 +26,11 @@ public class ProductOnGrocerylistController {
                 HttpStatus.CREATED);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Grocerylist> get(@PathVariable("id") int id) {
-//        return ResponseEntity.ok(grocerylistService.findById(id));
-//    }
-//
+    @GetMapping("/grocerylist/{grocerylist_id}")
+    public ResponseEntity<List<ProductOnGrocerylist>> get(@PathVariable("grocerylist_id") int grocerylistId) {
+        return ResponseEntity.ok(productOnGrocerylistService.findByGroceryListId(grocerylistId));
+    }
+
 //    @PutMapping
 //    public ResponseEntity<Grocerylist> update(@RequestBody Grocerylist groceryList) {
 //        return ResponseEntity.ok(productOnGrocerylistService.save(groceryList));
