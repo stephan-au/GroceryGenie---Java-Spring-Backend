@@ -30,11 +30,15 @@ public class ProductOnGrocerylistService {
                         .build());
     }
 
+    private Product findOrCreateProduct(String productName) {
+        return productService.findOrCreateProduct(productName);
+    }
+
     public List<ProductOnGrocerylist> findByGroceryListId(int groceryListId) {
         return productOnGrocerylistRepo.findByGroceryListId(groceryListId);
     }
 
-    private Product findOrCreateProduct(String productName) {
-        return productService.findOrCreateProduct(productName);
+    public void deleteById(int productOnGrocerylistId) {
+        productOnGrocerylistRepo.deleteById(productOnGrocerylistId);
     }
 }

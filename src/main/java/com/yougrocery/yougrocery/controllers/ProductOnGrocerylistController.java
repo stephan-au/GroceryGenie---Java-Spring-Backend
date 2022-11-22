@@ -37,11 +37,11 @@ public class ProductOnGrocerylistController {
 //    public ResponseEntity<Grocerylist> update(@RequestBody Grocerylist groceryList) {
 //        return ResponseEntity.ok(productOnGrocerylistService.save(groceryList));
 //    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
-//        productOnGrocerylistService.delete(id);
-//
-//        return ResponseEntity.ok(id);
-//    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Integer> delete(@PathVariable("id") int productOnGrocerylistId) {
+        productOnGrocerylistService.deleteById(productOnGrocerylistId);
+
+        return ResponseEntity.ok(productOnGrocerylistId);
+    }
 }

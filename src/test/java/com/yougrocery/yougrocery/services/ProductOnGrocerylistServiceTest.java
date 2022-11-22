@@ -117,6 +117,13 @@ class ProductOnGrocerylistServiceTest {
         verify(productOnGrocerylistRepo).findByGroceryListId(1);
     }
 
+    @Test
+    void deleteProductOnGrocerylist_Works() {
+        productOnGrocerylistService.deleteById(1);
+
+        verify(productOnGrocerylistRepo).deleteById(1);
+    }
+
     private Grocerylist getGrocerylistById(int id) {
         return grocerylistService.findById(id);
     }
