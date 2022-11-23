@@ -22,7 +22,7 @@ public class ProductOnGrocerylist {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "grocery_list_id", nullable = false)
     private Grocerylist groceryList;
 
