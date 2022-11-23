@@ -5,6 +5,7 @@ import com.yougrocery.yougrocery.models.Product;
 import com.yougrocery.yougrocery.models.ProductOnGrocerylist;
 import com.yougrocery.yougrocery.repositories.ProductOnGrocerylistRepository;
 import com.yougrocery.yougrocery.services.GrocerylistService;
+import com.yougrocery.yougrocery.services.ProductOnGrocerylistService;
 import com.yougrocery.yougrocery.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,6 @@ public class AddProductOnGrocerylistIntegrationTest {
         assertEquals(productsOnGrocerylist.size(), 1);
         assertThat(productsOnGrocerylist.get(0))
                 .hasProduct(expectedProduct)
-                .hasGroceryList(expectedGrocerylist)
                 .hasAmount(1);
     }
 

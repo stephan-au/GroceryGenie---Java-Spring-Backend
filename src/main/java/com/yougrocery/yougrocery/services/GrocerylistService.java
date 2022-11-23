@@ -2,6 +2,7 @@ package com.yougrocery.yougrocery.services;
 
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.repositories.GrocerylistRepository;
+import com.yougrocery.yougrocery.repositories.ProductOnGrocerylistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
 public class GrocerylistService {
 
     private final GrocerylistRepository grocerylistRepository;
+    private final ProductOnGrocerylistRepository productOnGrocerylistRepo;
 
     public Grocerylist save(Grocerylist groceryList) {
         return grocerylistRepository.save(groceryList);
@@ -27,6 +29,7 @@ public class GrocerylistService {
     }
 
     public void delete(int id) {
+        productOnGrocerylistRepo.deleteByGroceryListId(id);
         grocerylistRepository.deleteById(id);
     }
 }

@@ -95,8 +95,12 @@ class GrocerylistControllerTest {
     @Test
     void deleteGrocerylistWorks() throws Exception {
         //Act + Assert
-        mockMvc.perform(delete("/api/grocerylist/{id}", 1)
+        int grocerylistId = 1;
+        mockMvc.perform(delete("/api/grocerylist/{id}", grocerylistId)
                         .contentType("application/json"))
                 .andExpect(status().isOk());
+
+        verify(grocerylistService).delete(grocerylistId);
+
     }
 }

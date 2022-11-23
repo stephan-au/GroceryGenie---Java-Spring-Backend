@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.Assertions.assertThat;
@@ -29,12 +30,12 @@ class ProductOnGrocerylistRepositoryTest {
         //Arrange
         var product = new Product("Product name 1");
         var grocerylist = new Grocerylist("Grocerylist 1");
-        ProductOnGrocerylist productOnGrocerylist = new ProductOnGrocerylist(1, product, grocerylist, 5);
-        ProductOnGrocerylist productOnGrocerylist2 = new ProductOnGrocerylist(2, product, grocerylist, 1);
+        var productOnGrocerylist = new ProductOnGrocerylist(1, product, grocerylist, 5);
+        var productOnGrocerylist2 = new ProductOnGrocerylist(2, product, grocerylist, 1);
 
         //act
-        productRepo.save(product);
-        grocerylistRepo.save(grocerylist);
+        saveProducts(product);
+        saveGrocerylist(grocerylist);
 
         //Assert
         productOnGrocerylistRepo.save(productOnGrocerylist);
@@ -49,11 +50,12 @@ class ProductOnGrocerylistRepositoryTest {
         var product = new Product("Product name 1");
         var product2 = new Product("Product name 2");
         var grocerylist = new Grocerylist("Grocerylist 1");
-        productRepo.saveAll(List.of(product, product2));
-        grocerylistRepo.save(grocerylist);
-        productOnGrocerylistRepo.saveAll(List.of(
-                new ProductOnGrocerylist(1, product, grocerylist, 1),
-                new ProductOnGrocerylist(2, product2, grocerylist, 1)));
+        var productOnGrocerylist = new ProductOnGrocerylist(1, product, grocerylist, 1);
+        var productOnGrocerylist2 = new ProductOnGrocerylist(2, product2, grocerylist, 1);
+
+        saveAllProducts(List.of(product, product2));
+        saveGrocerylist(grocerylist);
+        saveAllProductsOnGrocerylist(List.of(productOnGrocerylist, productOnGrocerylist2));
 
         //Act
         List<ProductOnGrocerylist> actualProductsOnGrocerylist = findProductsOnGrocerylist(grocerylist);
@@ -78,19 +80,22 @@ class ProductOnGrocerylistRepositoryTest {
         var product3 = new Product("Product name 3");
         var grocerylist = new Grocerylist("Grocerylist 1");
         var grocerylist2 = new Grocerylist("Grocerylist 2");
+        var productOnGrocerylist = new ProductOnGrocerylist(1, product, grocerylist, 1);
+        var productOnGrocerylist1 = new ProductOnGrocerylist(2, product2, grocerylist, 2);
+        var productOnGrocerylist2 = new ProductOnGrocerylist(3, product3, grocerylist2, 1);
+        var productOnGrocerylist3 = new ProductOnGrocerylist(4, product2, grocerylist2, 4);
 
-        productRepo.saveAll(List.of(product, product2, product3));
-        grocerylistRepo.saveAll(List.of(grocerylist, grocerylist2));
-        productOnGrocerylistRepo.saveAllAndFlush(List.of(
-                new ProductOnGrocerylist(1, product, grocerylist, 1),
-                new ProductOnGrocerylist(2, product2, grocerylist, 2),
-                new ProductOnGrocerylist(3, product3, grocerylist2, 1),
-                new ProductOnGrocerylist(4, product2, grocerylist2, 4)));
+        saveAllProducts(List.of(product, product2, product3));
+        saveAllGrocerylists(List.of(grocerylist, grocerylist2));
+        saveAllProductsOnGrocerylist(List.of(
+                productOnGrocerylist,
+                productOnGrocerylist1,
+                productOnGrocerylist2,
+                productOnGrocerylist3));
 
         //Act
         List<ProductOnGrocerylist> actualProductsOnGrocerylist = findProductsOnGrocerylist(grocerylist);
         List<ProductOnGrocerylist> actualProductsOnGrocerylist2 = findProductsOnGrocerylist(grocerylist2);
-        productOnGrocerylistRepo.flush();
 
         //Assert
         assertEquals(2, actualProductsOnGrocerylist.size());
@@ -114,7 +119,96 @@ class ProductOnGrocerylistRepositoryTest {
                 .hasAmount(4);
     }
 
+    @Test
+    void twoProductsOnGrocerylist_deleteProductsOnGrocerylistByGrocerylistId_deletesProductsOnGrocerylist() {
+        //Arrange
+        var product = new Product("Product name 1");
+        var product2 = new Product("Product name 2");
+        var grocerylist = new Grocerylist("Grocerylist 1");
+        var productOnGrocerylist = new ProductOnGrocerylist(1, product, grocerylist, 1);
+        var productOnGrocerylist2 = new ProductOnGrocerylist(2, product2, grocerylist, 1);
+
+        saveAllProducts(List.of(product, product2));
+        saveGrocerylist(grocerylist);
+        saveAllProductsOnGrocerylist(List.of(productOnGrocerylist, productOnGrocerylist2));
+
+        //Act
+        deleteProductsOnGrocerylistByGrocerylistId(grocerylist);
+
+        //Assert
+        assertEquals(0, findAllProductsOnGrocerylists().size());
+    }
+
+    @Test
+    void multipleProductsOnMultipleGrocerylist_deleteProductsFromGrocerylist1_onlyDeletesProductsFromGrocerylist1() {
+        //Arrange
+        var product = new Product("Product name 1");
+        var product2 = new Product("Product name 2");
+        var product3 = new Product("Product name 3");
+        var grocerylist = new Grocerylist("Grocerylist 1");
+        var grocerylist2 = new Grocerylist("Grocerylist 2");
+        var productOnGrocerylist = new ProductOnGrocerylist(1, product, grocerylist, 1);
+        var productOnGrocerylist1 = new ProductOnGrocerylist(2, product2, grocerylist, 2);
+        var productOnGrocerylist2 = new ProductOnGrocerylist(3, product3, grocerylist2, 1);
+        var productOnGrocerylist3 = new ProductOnGrocerylist(4, product2, grocerylist2, 4);
+
+        saveAllProducts(List.of(product, product2, product3));
+        saveAllGrocerylists(List.of(grocerylist, grocerylist2));
+        saveAllProductsOnGrocerylist(List.of(
+                productOnGrocerylist,
+                productOnGrocerylist1,
+                productOnGrocerylist2,
+                productOnGrocerylist3));
+
+        //Act
+        deleteProductsOnGrocerylistByGrocerylistId(grocerylist);
+
+        //Assert
+        assertEquals(0, findProductsOnGrocerylist(grocerylist).size());
+        assertEquals(2, findProductsOnGrocerylist(grocerylist2).size());
+        assertEquals(2, findAllGrocerylists().size());
+        assertEquals(3, findAllProducts().size());
+
+    }
+
+    private void saveGrocerylist(Grocerylist grocerylist) {
+        grocerylistRepo.save(grocerylist);
+    }
+
+    private void saveAllGrocerylists(List<Grocerylist> grocerylists) {
+        grocerylistRepo.saveAll(grocerylists);
+    }
+
+    private void saveProducts(Product product) {
+        productRepo.save(product);
+    }
+
+    private void saveAllProducts(List<Product> products) {
+        productRepo.saveAll(products);
+    }
+
+    private void saveAllProductsOnGrocerylist(
+            List<ProductOnGrocerylist> productsOnGrocerylist) {
+        productOnGrocerylistRepo.saveAll(productsOnGrocerylist);
+    }
+
+    private List<ProductOnGrocerylist> findAllProductsOnGrocerylists() {
+        return productOnGrocerylistRepo.findAll();
+    }
+
     private List<ProductOnGrocerylist> findProductsOnGrocerylist(Grocerylist grocerylist) {
         return productOnGrocerylistRepo.findByGroceryListId(grocerylist.getId());
+    }
+
+    private void deleteProductsOnGrocerylistByGrocerylistId(Grocerylist grocerylist) {
+        productOnGrocerylistRepo.deleteByGroceryListId(grocerylist.getId());
+    }
+
+    private List<Grocerylist> findAllGrocerylists() {
+        return grocerylistRepo.findAll();
+    }
+
+    private List<Product> findAllProducts() {
+        return productRepo.findAll();
     }
 }

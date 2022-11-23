@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface ProductOnGrocerylistRepository extends JpaRepository<ProductOnGrocerylist, Integer> {
     List<ProductOnGrocerylist> findByGroceryListId(int id);
+
+    void deleteByGroceryListId(int id);
+
 }

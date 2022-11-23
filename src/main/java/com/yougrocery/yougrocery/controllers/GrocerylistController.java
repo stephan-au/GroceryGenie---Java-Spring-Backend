@@ -1,9 +1,7 @@
 package com.yougrocery.yougrocery.controllers;
 
 import com.yougrocery.yougrocery.models.Grocerylist;
-import com.yougrocery.yougrocery.models.ProductOnGrocerylist;
 import com.yougrocery.yougrocery.services.GrocerylistService;
-import com.yougrocery.yougrocery.services.ProductOnGrocerylistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class GrocerylistController {
 
     private final GrocerylistService grocerylistService;
-    private final ProductOnGrocerylistService productOnGrocerylistService;
 
     @PostMapping
     public ResponseEntity<Grocerylist> create(@RequestBody Grocerylist groceryList) {

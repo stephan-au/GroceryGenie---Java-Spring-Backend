@@ -2,6 +2,7 @@ package com.yougrocery.yougrocery.services;
 
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.repositories.GrocerylistRepository;
+import com.yougrocery.yougrocery.repositories.ProductOnGrocerylistRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +24,8 @@ class GrocerylistServiceTest {
 
     @Mock
     private GrocerylistRepository grocerylistRepository;
-
+    @Mock
+    private ProductOnGrocerylistRepository productOnGrocerylistRepo;
     @InjectMocks
     private GrocerylistService grocerylistService;
 
@@ -69,8 +71,13 @@ class GrocerylistServiceTest {
 
     @Test
     void deleteGrocerylistWorks() {
-        grocerylistService.delete(1);
+        int grocerylistId = 1;
 
-        verify(grocerylistRepository).deleteById(1);
+        //Act
+        grocerylistService.delete(grocerylistId);
+
+        //Arrange
+        verify(grocerylistRepository).deleteById(grocerylistId);
+        verify(productOnGrocerylistRepo).deleteByGroceryListId(grocerylistId);
     }
 }
