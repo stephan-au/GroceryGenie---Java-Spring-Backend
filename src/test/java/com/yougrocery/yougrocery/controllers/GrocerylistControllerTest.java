@@ -2,8 +2,8 @@ package com.yougrocery.yougrocery.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yougrocery.yougrocery.models.Grocerylist;
+import com.yougrocery.yougrocery.services.GroceryItemService;
 import com.yougrocery.yougrocery.services.GrocerylistService;
-import com.yougrocery.yougrocery.services.ProductOnGrocerylistService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -31,7 +31,7 @@ class GrocerylistControllerTest {
     @MockBean
     private GrocerylistService grocerylistService;
     @MockBean
-    private ProductOnGrocerylistService productOnGrocerylistService;
+    private GroceryItemService groceryItemService;
 
     @Captor
     ArgumentCaptor<Grocerylist> capturedGrocerylist;

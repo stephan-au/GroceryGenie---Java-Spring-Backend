@@ -1,9 +1,9 @@
 package com.yougrocery.yougrocery.services;
 
+import com.yougrocery.yougrocery.models.GroceryItem;
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.models.ProductOnGrocerylist;
-import com.yougrocery.yougrocery.repositories.ProductOnGrocerylistRepository;
+import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -23,23 +23,23 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ProductOnGrocerylistServiceTest {
+class GroceryItemServiceTest {
 
     @Mock
-    private ProductOnGrocerylistRepository productOnGrocerylistRepo;
+    private GroceryItemRepository groceryItemRepo;
     @Mock
     private ProductService productService;
     @Mock
     private GrocerylistService grocerylistService;
 
     @InjectMocks
-    private ProductOnGrocerylistService productOnGrocerylistService;
+    private GroceryItemService groceryItemService;
 
     @Captor
-    private ArgumentCaptor<ProductOnGrocerylist> productOnGrocerylistCaptor;
+    private ArgumentCaptor<GroceryItem> groceryItemCaptor;
 
     @Test
-    void addProductOnGrocerylist_works() {
+    void addGroceryItem_works() {
         //Arrange
         String expectedProductName = "Product name 1";
         var expectedProduct = new Product(expectedProductName);
@@ -47,29 +47,29 @@ class ProductOnGrocerylistServiceTest {
 
         when(getOrCreateProduct(expectedProductName)).thenReturn(expectedProduct);
         when(getGrocerylistById(anyInt())).thenReturn(expectedGrocerylist);
-        when(saveProductOnGrocerylist(any(ProductOnGrocerylist.class))).thenAnswer(returnsFirstArg());
+        when(saveGroceryItem(any(GroceryItem.class))).thenAnswer(returnsFirstArg());
 
         //Act
-        var actualProductOnGrocerylist = addProductOnGrocerylist(expectedProductName, 1);
+        var actualGroceryItem = addGroceryItem(expectedProductName, 1);
 
         //Assert
         verify(productService).findOrCreateProduct(expectedProductName);
         verify(grocerylistService).findById(1);
-        verify(productOnGrocerylistRepo).save(productOnGrocerylistCaptor.capture());
+        verify(groceryItemRepo).save(groceryItemCaptor.capture());
 
-        assertThat(productOnGrocerylistCaptor.getValue())
+        assertThat(groceryItemCaptor.getValue())
                 .hasProduct(expectedProduct)
                 .hasGroceryList(expectedGrocerylist)
                 .hasAmount(1);
 
-        assertThat(actualProductOnGrocerylist)
+        assertThat(actualGroceryItem)
                 .hasProduct(expectedProduct)
                 .hasGroceryList(expectedGrocerylist)
                 .hasAmount(1);
     }
 
     @Test
-    void addProductOnNonExistingGrocerylist_throwsErrorAndNoProductOnGroceryListAdded() {
+    void addProductOnNonExistingGrocerylist_throwsErrorAndNoGroceryItemAdded() {
         //Arrange
         String expectedProductName = "Product name 1";
         var expectedProduct = new Product(expectedProductName);
@@ -79,16 +79,16 @@ class ProductOnGrocerylistServiceTest {
 
         //Act
         assertThrows(EntityNotFoundException.class,
-                () -> addProductOnGrocerylist(expectedProductName, 1));
+                () -> addGroceryItem(expectedProductName, 1));
 
         //Assert
         verify(productService).findOrCreateProduct(expectedProductName);
         verify(grocerylistService).findById(1);
-        verify(productOnGrocerylistRepo, never()).save(any());
+        verify(groceryItemRepo, never()).save(any());
     }
 
     @Test
-    void addTheSameProductOnGrocerylist_throwsError() {
+    void addTheSameGroceryItem_throwsError() {
         //Arrange
         String expectedProductName = "Product name 1";
         var expectedProduct = new Product(expectedProductName);
@@ -96,32 +96,32 @@ class ProductOnGrocerylistServiceTest {
 
         when(getOrCreateProduct(expectedProductName)).thenReturn(expectedProduct);
         when(getGrocerylistById(anyInt())).thenReturn(expectedGrocerylist);
-        when(saveProductOnGrocerylist(any(ProductOnGrocerylist.class))).thenAnswer(returnsFirstArg()).thenThrow(DuplicateKeyException.class);
+        when(saveGroceryItem(any(GroceryItem.class))).thenAnswer(returnsFirstArg()).thenThrow(DuplicateKeyException.class);
 
         //Act
-        addProductOnGrocerylist(expectedProductName, 1);
+        addGroceryItem(expectedProductName, 1);
         assertThrows(
                 DuplicateKeyException.class,
-                () -> addProductOnGrocerylist(expectedProductName, 1));
+                () -> addGroceryItem(expectedProductName, 1));
 
         //Assert
         verify(productService, times(2)).findOrCreateProduct(expectedProductName);
         verify(grocerylistService, times(2)).findById(1);
-        verify(productOnGrocerylistRepo, times(2)).save(any());
+        verify(groceryItemRepo, times(2)).save(any());
     }
 
     @Test
-    void getProductsOnGrocerylistByGrocerylistId_Works() {
-        productOnGrocerylistService.findByGroceryListId(1);
+    void getGroceryItemsByGrocerylistId_Works() {
+        groceryItemService.findByGroceryListId(1);
 
-        verify(productOnGrocerylistRepo).findByGroceryListId(1);
+        verify(groceryItemRepo).findByGroceryListId(1);
     }
 
     @Test
-    void deleteProductOnGrocerylist_Works() {
-        productOnGrocerylistService.deleteById(1);
+    void deleteGroceryItem_Works() {
+        groceryItemService.deleteById(1);
 
-        verify(productOnGrocerylistRepo).deleteById(1);
+        verify(groceryItemRepo).deleteById(1);
     }
 
     private Grocerylist getGrocerylistById(int id) {
@@ -132,12 +132,12 @@ class ProductOnGrocerylistServiceTest {
         return productService.findOrCreateProduct(expectedProductName);
     }
 
-    private ProductOnGrocerylist saveProductOnGrocerylist(ProductOnGrocerylist productOnGrocerylist) {
-        return productOnGrocerylistRepo.save(productOnGrocerylist);
+    private GroceryItem saveGroceryItem(GroceryItem groceryItem) {
+        return groceryItemRepo.save(groceryItem);
     }
 
 
-    private ProductOnGrocerylist addProductOnGrocerylist(String productName, int grocerylistId) {
-        return productOnGrocerylistService.addProductOnGrocerylist(productName, grocerylistId);
+    private GroceryItem addGroceryItem(String productName, int grocerylistId) {
+        return groceryItemService.addGroceryItem(productName, grocerylistId);
     }
 }

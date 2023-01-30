@@ -1,8 +1,8 @@
 package com.yougrocery.yougrocery.services;
 
 import com.yougrocery.yougrocery.models.Grocerylist;
+import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
 import com.yougrocery.yougrocery.repositories.GrocerylistRepository;
-import com.yougrocery.yougrocery.repositories.ProductOnGrocerylistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,26 +15,26 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class GrocerylistService {
 
-    private final GrocerylistRepository grocerylistRepository;
-    private final ProductOnGrocerylistRepository productOnGrocerylistRepo;
+    private final GrocerylistRepository grocerylistRepo;
+    private final GroceryItemRepository groceryItemRepo;
 
     public Grocerylist save(Grocerylist groceryList) {
-        return grocerylistRepository.save(groceryList);
+        return grocerylistRepo.save(groceryList);
     }
 
     public List<Grocerylist> findAll() {
-        return grocerylistRepository.findAll();
+        return grocerylistRepo.findAll();
     }
 
     public Grocerylist findById(int id) {
-        return grocerylistRepository
+        return grocerylistRepo
                 .findById(id)
                 .orElseThrow(
                         () -> new NoSuchElementException("Grocerylist with id: " + id + " doesn't exist"));
     }
 
     public void delete(int id) {
-        productOnGrocerylistRepo.deleteByGroceryListId(id);
-        grocerylistRepository.deleteById(id);
+        groceryItemRepo.deleteByGroceryListId(id);
+        grocerylistRepo.deleteById(id);
     }
 }

@@ -2,10 +2,9 @@ package com.yougrocery.yougrocery.controllers;
 
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.models.ProductOnGrocerylist;
-import com.yougrocery.yougrocery.repositories.ProductOnGrocerylistRepository;
+import com.yougrocery.yougrocery.models.GroceryItem;
+import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
 import com.yougrocery.yougrocery.services.GrocerylistService;
-import com.yougrocery.yougrocery.services.ProductOnGrocerylistService;
 import com.yougrocery.yougrocery.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AddProductOnGrocerylistIntegrationTest {
+public class AddGroceryItemIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,10 +30,10 @@ public class AddProductOnGrocerylistIntegrationTest {
     @Autowired
     private GrocerylistService grocerylistService;
     @Autowired
-    private ProductOnGrocerylistRepository productOnGrocerylistRepository;
+    private GroceryItemRepository groceryItemRepository;
 
     @Test
-    void addExistingProductOnExistingGrocerylist_addProductOnGrocerylist() throws Exception {
+    void addExistingProductOnExistingGrocerylist_addGroceryItem() throws Exception {
         String expectedProductName = "Product Name 123";
         Product expectedProduct = saveProduct(expectedProductName);
         Grocerylist expectedGrocerylist = saveGrocerylist("Grocerylist 1");
@@ -46,9 +45,9 @@ public class AddProductOnGrocerylistIntegrationTest {
                 .andExpectAll(status().isCreated());
 
         //Assert
-        List<ProductOnGrocerylist> productsOnGrocerylist = findProductsOnGrocerylist(expectedGrocerylist);
-        assertEquals(productsOnGrocerylist.size(), 1);
-        assertThat(productsOnGrocerylist.get(0))
+        List<GroceryItem> groceryItems = findGroceryItems(expectedGrocerylist);
+        assertEquals(groceryItems.size(), 1);
+        assertThat(groceryItems.get(0))
                 .hasProduct(expectedProduct)
                 .hasAmount(1);
     }
@@ -61,8 +60,8 @@ public class AddProductOnGrocerylistIntegrationTest {
         return grocerylistService.save(new Grocerylist(name));
     }
 
-    private List<ProductOnGrocerylist> findProductsOnGrocerylist(Grocerylist grocerylist) {
-        return productOnGrocerylistRepository.findByGroceryListId(grocerylist.getId());
+    private List<GroceryItem> findGroceryItems(Grocerylist grocerylist) {
+        return groceryItemRepository.findByGroceryListId(grocerylist.getId());
     }
 
 }

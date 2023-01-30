@@ -1,9 +1,9 @@
 package com.yougrocery.yougrocery.controllers;
 
+import com.yougrocery.yougrocery.models.GroceryItem;
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.models.ProductOnGrocerylist;
-import com.yougrocery.yougrocery.services.ProductOnGrocerylistService;
+import com.yougrocery.yougrocery.services.GroceryItemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,25 +16,25 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ProductOnGrocerylistController.class)
-class ProductOnGrocerylistControllerTest {
+@WebMvcTest(GroceryItemController.class)
+class GroceryItemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private ProductOnGrocerylistService productOnGrocerylistService;
+    private GroceryItemService groceryItemService;
 
 
     @Test
-    void addProductOnGrocerylist_works() throws Exception {
+    void addGroceryItem_works() throws Exception {
         //Arrange
         var grocerylist = new Grocerylist("Test name 1");
         var product = new Product("Product name 1");
-        var productOnGrocerylist = new ProductOnGrocerylist(product, grocerylist, 1);
+        var groceryItem = new GroceryItem(product, grocerylist, 1);
 
-        when(productOnGrocerylistService.addProductOnGrocerylist(product.getName(), grocerylist.getId()))
-                .thenReturn(productOnGrocerylist);
+        when(groceryItemService.addGroceryItem(product.getName(), grocerylist.getId()))
+                .thenReturn(groceryItem);
 
         //Act
         mockMvc.perform(post(
@@ -43,15 +43,15 @@ class ProductOnGrocerylistControllerTest {
                         product.getName()))
                 .andExpectAll(
                         status().isCreated(),
-                        responseBody().containsObjectAsJson(productOnGrocerylist, ProductOnGrocerylist.class));
+                        responseBody().containsObjectAsJson(groceryItem, GroceryItem.class));
 
         //Assert
-        verify(productOnGrocerylistService)
-                .addProductOnGrocerylist(product.getName(), grocerylist.getId());
+        verify(groceryItemService)
+                .addGroceryItem(product.getName(), grocerylist.getId());
     }
 
     @Test
-    void findProductsOnGrocerylist_works() throws Exception {
+    void findGroceryItems_works() throws Exception {
         //Arrange
         int grocerylistId = 1;
 
@@ -62,22 +62,22 @@ class ProductOnGrocerylistControllerTest {
                 .andExpectAll(status().isOk());
 
         //Assert
-        verify(productOnGrocerylistService)
+        verify(groceryItemService)
                 .findByGroceryListId(grocerylistId);
     }
 
     @Test
-    void deleteProductOnGrocerylist_works() throws Exception {
-        int productOnGrocerylistId = 1;
+    void deleteGroceryItem_works() throws Exception {
+        int groceryItemId = 1;
 
         //Act
         mockMvc.perform(delete(
                         "/api/product_on_grocerylist/{id}",
-                        productOnGrocerylistId))
+                        groceryItemId))
                 .andExpectAll(status().isOk());
 
         //Assert
-        verify(productOnGrocerylistService)
-                .deleteById(productOnGrocerylistId);
+        verify(groceryItemService)
+                .deleteById(groceryItemId);
     }
 }

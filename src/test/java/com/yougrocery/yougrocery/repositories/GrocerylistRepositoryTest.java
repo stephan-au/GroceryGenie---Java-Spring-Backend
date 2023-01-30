@@ -1,8 +1,8 @@
 package com.yougrocery.yougrocery.repositories;
 
+import com.yougrocery.yougrocery.models.GroceryItem;
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.models.ProductOnGrocerylist;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,7 +21,7 @@ class GrocerylistRepositoryTest {
     @Autowired
     private ProductRepository productRepo;
     @Autowired
-    private ProductOnGrocerylistRepository productOnGrocerylistRepo;
+    private GroceryItemRepository groceryItemRepo;
 
     @Test
     void createTwoGroceryListsWithSameName_works() {
@@ -45,16 +45,16 @@ class GrocerylistRepositoryTest {
         var grocerylist1 = new Grocerylist("Test name 1");
         var product1 = new Product("Product name 1");
         var product2 = new Product("Product name 2");
-        var productOnGrocerylist = new ProductOnGrocerylist(product1, grocerylist1, 1);
-        var productOnGrocerylist2 = new ProductOnGrocerylist(product2, grocerylist1, 1);
+        var groceryItem = new GroceryItem(product1, grocerylist1, 1);
+        var groceryItem2 = new GroceryItem(product2, grocerylist1, 1);
 
         saveGrocerylist(grocerylist1);
         saveAllProducts(List.of(product1, product2));
-        saveAllProductsOnGrocerylist(List.of(productOnGrocerylist, productOnGrocerylist2));
+        saveAllGroceryItems(List.of(groceryItem, groceryItem2));
 
         assertThat(findAllGrocerylists()).hasSize(1);
         assertThat(findAllProducts()).hasSize(2);
-        assertThat(findAllProductsOnGrocerylists()).hasSize(2);
+        assertThat(findAllGroceryItemss()).hasSize(2);
 
         //Act
         assertThrows(
@@ -70,8 +70,8 @@ class GrocerylistRepositoryTest {
         return productRepo.saveAll(products);
     }
 
-    private void saveAllProductsOnGrocerylist(List<ProductOnGrocerylist> productsOnGrocerylist) {
-        productOnGrocerylistRepo.saveAll(productsOnGrocerylist);
+    private void saveAllGroceryItems(List<GroceryItem> groceryItems) {
+        groceryItemRepo.saveAll(groceryItems);
     }
 
     private List<Grocerylist> findAllGrocerylists() {
@@ -82,8 +82,8 @@ class GrocerylistRepositoryTest {
         return productRepo.findAll();
     }
 
-    private List<ProductOnGrocerylist> findAllProductsOnGrocerylists() {
-        return productOnGrocerylistRepo.findAll();
+    private List<GroceryItem> findAllGroceryItemss() {
+        return groceryItemRepo.findAll();
     }
 
     private void deleteGrocerylistAndFlush(Grocerylist grocerylist1) {

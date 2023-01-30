@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "product_on_grocery_list", uniqueConstraints = {
         @UniqueConstraint(name = "uc_productongrocerylist", columnNames = {"product_id", "grocery_list_id"})
 })
-public class ProductOnGrocerylist {
+public class GroceryItem {
     @Id
     @GeneratedValue(generator = "seq_productongrocerylist")
     private int id;
@@ -28,7 +28,7 @@ public class ProductOnGrocerylist {
 
     private int amount;
 
-    public ProductOnGrocerylist(Product product, Grocerylist groceryList, int amount) {
+    public GroceryItem(Product product, Grocerylist groceryList, int amount) {
         this.product = product;
         this.groceryList = groceryList;
         this.amount = amount;

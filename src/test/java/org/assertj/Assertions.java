@@ -8,6 +8,28 @@ package org.assertj;
 public class Assertions {
 
   /**
+   * Creates a new instance of <code>{@link com.yougrocery.yougrocery.models.GroceryItemAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @org.assertj.core.util.CheckReturnValue
+  public static com.yougrocery.yougrocery.models.GroceryItemAssert assertThat(com.yougrocery.yougrocery.models.GroceryItem actual) {
+    return new com.yougrocery.yougrocery.models.GroceryItemAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link com.yougrocery.yougrocery.models.GroceryItemGroceryItemBuilderAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @org.assertj.core.util.CheckReturnValue
+  public static com.yougrocery.yougrocery.models.GroceryItemGroceryItemBuilderAssert assertThat(com.yougrocery.yougrocery.models.GroceryItem.GroceryItemBuilder actual) {
+    return new com.yougrocery.yougrocery.models.GroceryItemGroceryItemBuilderAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link com.yougrocery.yougrocery.models.GrocerylistAssert}</code>.
    *
    * @param actual the actual value.
@@ -27,28 +49,6 @@ public class Assertions {
   @org.assertj.core.util.CheckReturnValue
   public static com.yougrocery.yougrocery.models.ProductAssert assertThat(com.yougrocery.yougrocery.models.Product actual) {
     return new com.yougrocery.yougrocery.models.ProductAssert(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link com.yougrocery.yougrocery.models.ProductOnGrocerylistAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  @org.assertj.core.util.CheckReturnValue
-  public static com.yougrocery.yougrocery.models.ProductOnGrocerylistAssert assertThat(com.yougrocery.yougrocery.models.ProductOnGrocerylist actual) {
-    return new com.yougrocery.yougrocery.models.ProductOnGrocerylistAssert(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link com.yougrocery.yougrocery.models.ProductOnGrocerylistProductOnGrocerylistBuilderAssert}</code>.
-   *
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  @org.assertj.core.util.CheckReturnValue
-  public static com.yougrocery.yougrocery.models.ProductOnGrocerylistProductOnGrocerylistBuilderAssert assertThat(com.yougrocery.yougrocery.models.ProductOnGrocerylist.ProductOnGrocerylistBuilder actual) {
-    return new com.yougrocery.yougrocery.models.ProductOnGrocerylistProductOnGrocerylistBuilderAssert(actual);
   }
 
   /**
