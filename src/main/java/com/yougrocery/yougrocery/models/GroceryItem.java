@@ -10,12 +10,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "product_on_grocery_list", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_productongrocerylist", columnNames = {"product_id", "grocery_list_id"})
+@Table(name = "grocery_item", uniqueConstraints = {
+        @UniqueConstraint(name = "uc_groceryitem", columnNames = {"product_id", "grocery_list_id"})
 })
 public class GroceryItem {
     @Id
-    @GeneratedValue(generator = "seq_productongrocerylist")
+    @GeneratedValue(generator = "seq_groceryitem")
     private int id;
 
     @ManyToOne(optional = false)
