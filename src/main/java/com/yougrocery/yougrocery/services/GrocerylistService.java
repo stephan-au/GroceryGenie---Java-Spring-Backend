@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -19,6 +20,10 @@ public class GrocerylistService {
 
     public Grocerylist save(Grocerylist groceryList) {
         return grocerylistRepository.save(groceryList);
+    }
+
+    public List<Grocerylist> findAll() {
+        return grocerylistRepository.findAll();
     }
 
     public Grocerylist findById(int id) {

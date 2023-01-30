@@ -7,9 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/grocerylist")
 @RequiredArgsConstructor
+@CrossOrigin
 public class GrocerylistController {
 
     private final GrocerylistService grocerylistService;
@@ -19,6 +22,11 @@ public class GrocerylistController {
         return new ResponseEntity<>(
                 grocerylistService.save(groceryList),
                 HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Grocerylist>> getAll() {
+        return ResponseEntity.ok(grocerylistService.findAll());
     }
 
     @GetMapping("/{id}")
