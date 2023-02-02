@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/grocerylist")
+@RequestMapping("/api/v1/grocerylist")
 @RequiredArgsConstructor
 @CrossOrigin
 public class GrocerylistController {

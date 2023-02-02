@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product_on_grocerylist")
+@RequestMapping("/api/v1/product_on_grocerylist")
 @RequiredArgsConstructor
 public class GroceryItemController {
 
