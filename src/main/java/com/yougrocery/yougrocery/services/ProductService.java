@@ -2,10 +2,10 @@ package com.yougrocery.yougrocery.services;
 
 import com.yougrocery.yougrocery.models.Product;
 import com.yougrocery.yougrocery.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service

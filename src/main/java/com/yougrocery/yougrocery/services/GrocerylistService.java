@@ -3,10 +3,10 @@ package com.yougrocery.yougrocery.services;
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
 import com.yougrocery.yougrocery.repositories.GrocerylistRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 

@@ -1,8 +1,7 @@
 package com.yougrocery.yougrocery.models;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 
 @Builder
 @AllArgsConstructor

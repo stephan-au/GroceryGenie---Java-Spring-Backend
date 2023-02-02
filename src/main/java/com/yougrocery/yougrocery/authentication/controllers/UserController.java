@@ -1,15 +1,14 @@
 package com.yougrocery.yougrocery.authentication.controllers;
 
 
-import com.yougrocery.yougrocery.authentication.models.Role;
 import com.yougrocery.yougrocery.authentication.models.User;
 import com.yougrocery.yougrocery.authentication.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
         return ResponseEntity.ok().body(userService.getUser(id));
     }
 
@@ -36,7 +35,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id") int id) {
         return ResponseEntity.ok(userService.delete(id));
     }
 }
