@@ -35,23 +35,8 @@ public class UserController {
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
-    @PostMapping("/role/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
-    }
-
-    @PostMapping("/role/addtouser")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
-        userService.addRoleToUser(form.username, form.roleName);
-        return ResponseEntity.ok().build();
-    }
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> deleteUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.delete(id));
-    }
-
-    record RoleToUserForm(String username, String roleName) {
     }
 }

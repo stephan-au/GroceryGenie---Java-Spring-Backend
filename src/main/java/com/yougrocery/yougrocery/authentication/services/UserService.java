@@ -2,7 +2,6 @@ package com.yougrocery.yougrocery.authentication.services;
 
 import com.yougrocery.yougrocery.authentication.models.Role;
 import com.yougrocery.yougrocery.authentication.models.User;
-import com.yougrocery.yougrocery.authentication.repositories.RoleRepository;
 import com.yougrocery.yougrocery.authentication.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +19,6 @@ import static java.lang.Boolean.TRUE;
 @Transactional
 public class UserService implements UserDetailsService {
     private final UserRepository userRepo;
-    private final RoleRepository roleRepo;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -35,16 +33,6 @@ public class UserService implements UserDetailsService {
 
     public User saveUser(User user) {
         return userRepo.save(user);
-    }
-
-    public Role saveRole(Role role) {
-        return roleRepo.save(role);
-    }
-
-    public void addRoleToUser(String email, String roleName) {
-        User user = userRepo.findByEmail(email);
-        Role role = roleRepo.findByName(roleName);
-        user.getRoles().add(role);
     }
 
     public User getUser(Long id) {
