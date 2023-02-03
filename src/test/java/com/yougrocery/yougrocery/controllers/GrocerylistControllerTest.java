@@ -1,6 +1,7 @@
 package com.yougrocery.yougrocery.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yougrocery.yougrocery.authentication.config.JwtService;
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.services.GroceryItemService;
 import com.yougrocery.yougrocery.services.GrocerylistService;
@@ -32,6 +33,8 @@ class GrocerylistControllerTest {
     private GrocerylistService grocerylistService;
     @MockBean
     private GroceryItemService groceryItemService;
+    @MockBean
+    private JwtService jwtService;
 
     @Captor
     ArgumentCaptor<Grocerylist> capturedGrocerylist;

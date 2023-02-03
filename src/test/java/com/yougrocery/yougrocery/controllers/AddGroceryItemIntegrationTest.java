@@ -34,6 +34,7 @@ public class AddGroceryItemIntegrationTest {
 
     @Test
     void addExistingProductOnExistingGrocerylist_addGroceryItem() throws Exception {
+        //TODO login first
         String expectedProductName = "Product Name 123";
         Product expectedProduct = saveProduct(expectedProductName);
         Grocerylist expectedGrocerylist = saveGrocerylist("Grocerylist 1");

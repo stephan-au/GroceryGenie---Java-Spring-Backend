@@ -102,7 +102,7 @@ class GroceryItemRepositoryTest {
 
         assertEquals(product2, actualGroceryItems.get(1).getProduct());
         assertEquals(grocerylist, actualGroceryItems.get(1).getGroceryList());
-        assertEquals(1, actualGroceryItems.get(1).getAmount());
+        assertEquals(2, actualGroceryItems.get(1).getAmount());
 
         assertEquals(2, actualGroceryItems2.size());
         assertEquals(product3, actualGroceryItems2.get(0).getProduct());
