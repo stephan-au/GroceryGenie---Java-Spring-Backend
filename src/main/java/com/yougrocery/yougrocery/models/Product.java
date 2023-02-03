@@ -18,7 +18,8 @@ import java.util.Objects;
 public class Product {
 
     @Id
-    @GeneratedValue(generator = "seq_product")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_generator")
+    @SequenceGenerator(name = "product_generator", sequenceName = "seq_product", allocationSize = 1)
     private int id;
 
     @Column(unique = true)

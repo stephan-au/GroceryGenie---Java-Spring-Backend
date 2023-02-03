@@ -14,7 +14,8 @@ import lombok.*;
 })
 public class GroceryItem {
     @Id
-    @GeneratedValue(generator = "seq_groceryitem")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "groceryitem_generator")
+    @SequenceGenerator(name = "groceryitem_generator", sequenceName = "seq_groceryitem", allocationSize = 1)
     private int id;
 
     @ManyToOne(optional = false)

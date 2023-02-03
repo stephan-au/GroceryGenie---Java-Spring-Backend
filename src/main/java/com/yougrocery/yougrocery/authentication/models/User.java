@@ -20,7 +20,8 @@ import java.util.List;
 @Builder
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(generator = "users_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_generator")
+    @SequenceGenerator(name = "users_generator", sequenceName = "seq_users", allocationSize = 1)
     private int id;
     @Column(unique = true)
     @NotEmpty(message = "Email cannot be empty or null")

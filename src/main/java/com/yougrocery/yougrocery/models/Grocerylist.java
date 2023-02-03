@@ -15,7 +15,8 @@ import java.util.Objects;
 @Table(name = "grocery_list")
 public class Grocerylist {
     @Id
-    @GeneratedValue(generator = "seq_grocerylist")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grocerylist_generator")
+    @SequenceGenerator(name = "grocerylist_generator", sequenceName = "seq_grocerylist", allocationSize = 1)
     private int id;
 
     @Column(name = "name", nullable = false)
