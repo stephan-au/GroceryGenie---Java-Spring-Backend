@@ -1,11 +1,11 @@
-package com.yougrocery.yougrocery.controllers;
+package com.yougrocery.yougrocery.grocerylist.controllers;
 
-import com.yougrocery.yougrocery.models.Grocerylist;
-import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.models.GroceryItem;
-import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
-import com.yougrocery.yougrocery.services.GrocerylistService;
-import com.yougrocery.yougrocery.services.ProductService;
+import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
+import com.yougrocery.yougrocery.grocerylist.models.Product;
+import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
+import com.yougrocery.yougrocery.grocerylist.repositories.GroceryItemRepository;
+import com.yougrocery.yougrocery.grocerylist.services.GrocerylistService;
+import com.yougrocery.yougrocery.grocerylist.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

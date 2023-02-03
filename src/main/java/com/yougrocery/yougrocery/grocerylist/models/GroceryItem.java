@@ -1,4 +1,4 @@
-package com.yougrocery.yougrocery.models;
+package com.yougrocery.yougrocery.grocerylist.models;
 
 import jakarta.persistence.*;
 import lombok.*;

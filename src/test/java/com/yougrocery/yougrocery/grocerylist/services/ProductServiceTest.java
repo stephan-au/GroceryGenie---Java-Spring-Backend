@@ -1,7 +1,8 @@
-package com.yougrocery.yougrocery.services;
+package com.yougrocery.yougrocery.grocerylist.services;
 
-import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.repositories.ProductRepository;
+import com.yougrocery.yougrocery.grocerylist.models.Product;
+import com.yougrocery.yougrocery.grocerylist.repositories.ProductRepository;
+import com.yougrocery.yougrocery.grocerylist.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

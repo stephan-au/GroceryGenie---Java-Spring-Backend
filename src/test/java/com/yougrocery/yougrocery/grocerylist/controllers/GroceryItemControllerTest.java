@@ -1,17 +1,17 @@
-package com.yougrocery.yougrocery.controllers;
+package com.yougrocery.yougrocery.grocerylist.controllers;
 
 import com.yougrocery.yougrocery.authentication.services.JwtService;
-import com.yougrocery.yougrocery.models.GroceryItem;
-import com.yougrocery.yougrocery.models.Grocerylist;
-import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.services.GroceryItemService;
+import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
+import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
+import com.yougrocery.yougrocery.grocerylist.models.Product;
+import com.yougrocery.yougrocery.grocerylist.services.GroceryItemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.yougrocery.yougrocery.controllers.ResponseBodyMatchers.responseBody;
+import static com.yougrocery.yougrocery.grocerylist.controllers.ResponseBodyMatchers.responseBody;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

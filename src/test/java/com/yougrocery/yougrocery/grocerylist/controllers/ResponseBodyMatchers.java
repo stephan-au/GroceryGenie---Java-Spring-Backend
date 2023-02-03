@@ -1,4 +1,4 @@
-package com.yougrocery.yougrocery.controllers;
+package com.yougrocery.yougrocery.grocerylist.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

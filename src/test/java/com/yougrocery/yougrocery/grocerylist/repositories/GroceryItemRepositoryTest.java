@@ -1,8 +1,11 @@
-package com.yougrocery.yougrocery.repositories;
+package com.yougrocery.yougrocery.grocerylist.repositories;
 
-import com.yougrocery.yougrocery.models.GroceryItem;
-import com.yougrocery.yougrocery.models.Grocerylist;
-import com.yougrocery.yougrocery.models.Product;
+import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
+import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
+import com.yougrocery.yougrocery.grocerylist.models.Product;
+import com.yougrocery.yougrocery.grocerylist.repositories.GroceryItemRepository;
+import com.yougrocery.yougrocery.grocerylist.repositories.GrocerylistRepository;
+import com.yougrocery.yougrocery.grocerylist.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

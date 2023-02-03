@@ -1,7 +1,7 @@
-package com.yougrocery.yougrocery.controllers;
+package com.yougrocery.yougrocery.grocerylist.controllers;
 
-import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.services.ProductService;
+import com.yougrocery.yougrocery.grocerylist.models.Product;
+import com.yougrocery.yougrocery.grocerylist.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

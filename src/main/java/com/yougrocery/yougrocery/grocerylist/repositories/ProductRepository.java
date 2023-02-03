@@ -1,6 +1,6 @@
-package com.yougrocery.yougrocery.repositories;
+package com.yougrocery.yougrocery.grocerylist.repositories;
 
-import com.yougrocery.yougrocery.models.Product;
+import com.yougrocery.yougrocery.grocerylist.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

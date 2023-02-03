@@ -1,9 +1,12 @@
-package com.yougrocery.yougrocery.services;
+package com.yougrocery.yougrocery.grocerylist.services;
 
-import com.yougrocery.yougrocery.models.GroceryItem;
-import com.yougrocery.yougrocery.models.Grocerylist;
-import com.yougrocery.yougrocery.models.Product;
-import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
+import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
+import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
+import com.yougrocery.yougrocery.grocerylist.models.Product;
+import com.yougrocery.yougrocery.grocerylist.repositories.GroceryItemRepository;
+import com.yougrocery.yougrocery.grocerylist.services.GroceryItemService;
+import com.yougrocery.yougrocery.grocerylist.services.GrocerylistService;
+import com.yougrocery.yougrocery.grocerylist.services.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
