@@ -1,5 +1,6 @@
 package com.yougrocery.yougrocery.authentication.config;
 
+import com.yougrocery.yougrocery.authentication.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

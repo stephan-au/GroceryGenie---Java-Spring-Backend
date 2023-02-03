@@ -1,4 +1,4 @@
-package com.yougrocery.yougrocery.authentication.config;
+package com.yougrocery.yougrocery.authentication.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

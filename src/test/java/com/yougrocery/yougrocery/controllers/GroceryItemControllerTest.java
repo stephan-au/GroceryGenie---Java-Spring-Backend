@@ -1,6 +1,6 @@
 package com.yougrocery.yougrocery.controllers;
 
-import com.yougrocery.yougrocery.authentication.config.JwtService;
+import com.yougrocery.yougrocery.authentication.services.JwtService;
 import com.yougrocery.yougrocery.models.GroceryItem;
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.models.Product;

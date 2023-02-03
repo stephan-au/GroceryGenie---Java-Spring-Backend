@@ -1,5 +1,8 @@
 package com.yougrocery.yougrocery.authentication.controllers;
 
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequest;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponse;
+import com.yougrocery.yougrocery.authentication.dtos.RegisterRequest;
 import com.yougrocery.yougrocery.authentication.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

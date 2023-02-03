@@ -1,4 +1,4 @@
-package com.yougrocery.yougrocery.authentication.controllers;
+package com.yougrocery.yougrocery.authentication.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
