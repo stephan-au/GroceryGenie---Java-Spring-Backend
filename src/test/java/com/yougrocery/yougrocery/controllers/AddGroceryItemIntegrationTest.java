@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.assertj.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,9 +47,8 @@ public class AddGroceryItemIntegrationTest {
         //Assert
         List<GroceryItem> groceryItems = findGroceryItems(expectedGrocerylist);
         assertEquals(groceryItems.size(), 1);
-        assertThat(groceryItems.get(0))
-                .hasProduct(expectedProduct)
-                .hasAmount(1);
+        assertEquals(expectedProduct, groceryItems.get(0).getProduct());
+        assertEquals(1, groceryItems.get(0).getAmount());
     }
 
     private Product saveProduct(String expectedProductName) {

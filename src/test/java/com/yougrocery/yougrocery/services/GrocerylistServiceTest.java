@@ -1,8 +1,8 @@
 package com.yougrocery.yougrocery.services;
 
 import com.yougrocery.yougrocery.models.Grocerylist;
-import com.yougrocery.yougrocery.repositories.GrocerylistRepository;
 import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
+import com.yougrocery.yougrocery.repositories.GrocerylistRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.assertj.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,7 +40,7 @@ class GrocerylistServiceTest {
 
         //Assert
         verify(grocerylistRepository).save(expected);
-        assertThat(actual).hasName("Test 12345");
+        assertEquals("Test 12345", actual.getName());
     }
 
     @Test
@@ -54,7 +54,7 @@ class GrocerylistServiceTest {
 
         //Assert
         verify(grocerylistRepository).findById(1);
-        assertThat(actual).hasName("Test 12345");
+        assertEquals("Test 12345", actual.getName());
     }
 
     @Test

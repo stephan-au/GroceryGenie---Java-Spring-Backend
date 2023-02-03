@@ -4,6 +4,7 @@ import com.yougrocery.yougrocery.models.GroceryItem;
 import com.yougrocery.yougrocery.models.Grocerylist;
 import com.yougrocery.yougrocery.models.Product;
 import com.yougrocery.yougrocery.repositories.GroceryItemRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -13,9 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DuplicateKeyException;
 
-import javax.persistence.EntityNotFoundException;
-
-import static org.assertj.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,15 +56,14 @@ class GroceryItemServiceTest {
         verify(grocerylistService).findById(1);
         verify(groceryItemRepo).save(groceryItemCaptor.capture());
 
-        assertThat(groceryItemCaptor.getValue())
-                .hasProduct(expectedProduct)
-                .hasGroceryList(expectedGrocerylist)
-                .hasAmount(1);
+        var capturedGroceryItem = groceryItemCaptor.getValue();
+        assertEquals(expectedProduct, capturedGroceryItem.getProduct());
+        assertEquals(expectedGrocerylist, capturedGroceryItem.getGroceryList());
+        assertEquals(1, capturedGroceryItem.getAmount());
 
-        assertThat(actualGroceryItem)
-                .hasProduct(expectedProduct)
-                .hasGroceryList(expectedGrocerylist)
-                .hasAmount(1);
+        assertEquals(expectedProduct, actualGroceryItem.getProduct());
+        assertEquals(expectedGrocerylist, actualGroceryItem.getGroceryList());
+        assertEquals(1, actualGroceryItem.getAmount());
     }
 
     @Test

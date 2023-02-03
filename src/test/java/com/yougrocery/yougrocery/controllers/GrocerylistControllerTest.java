@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.yougrocery.yougrocery.controllers.ResponseBodyMatchers.responseBody;
-import static org.assertj.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -52,8 +52,7 @@ class GrocerylistControllerTest {
 
         //Assert
         verify(grocerylistService).save(capturedGrocerylist.capture());
-        assertThat(capturedGrocerylist.getValue())
-                .hasName("Test name 1");
+        assertEquals("Test name 1", capturedGrocerylist.getValue().getName());
     }
 
     @Test
@@ -88,8 +87,7 @@ class GrocerylistControllerTest {
 
         //Assert
         verify(grocerylistService).save(capturedGrocerylist.capture());
-        assertThat(capturedGrocerylist.getValue())
-                .hasName("Test name 1");
+        assertEquals("Test name 1", capturedGrocerylist.getValue().getName());
     }
 
     @Test

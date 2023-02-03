@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -39,8 +39,8 @@ class ProductServiceTest {
 
         verify(productRepository).findByName(expectedName);
         verify(productRepository, never()).save(any());
-        assertThat(actualProduct)
-                .hasName(expectedName);
+
+        assertEquals(expectedName, actualProduct.getName());
     }
 
     @Test
@@ -54,10 +54,10 @@ class ProductServiceTest {
 
         verify(productRepository).findByName(expectedName);
         verify(productRepository).save(productCaptor.capture());
-        assertThat(productCaptor.getValue())
-                .hasName(expectedName);
-        assertThat(actualProduct)
-                .hasName(expectedName);
+
+        assertEquals(expectedName, productCaptor.getValue().getName());
+        assertEquals(expectedName, actualProduct.getName());
+
     }
 
     private Optional<Product> findProductByName(String name) {

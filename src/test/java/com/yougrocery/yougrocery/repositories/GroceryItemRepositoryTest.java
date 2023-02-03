@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
 
-import static org.assertj.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -61,14 +60,13 @@ class GroceryItemRepositoryTest {
 
         //Assert
         assertEquals(2, actualGroceryItems.size());
-        assertThat(actualGroceryItems.get(0))
-                .hasProduct(product)
-                .hasGroceryList(grocerylist)
-                .hasAmount(1);
-        assertThat(actualGroceryItems.get(1))
-                .hasProduct(product2)
-                .hasGroceryList(grocerylist)
-                .hasAmount(1);
+        assertEquals(product, actualGroceryItems.get(0).getProduct());
+        assertEquals(grocerylist, actualGroceryItems.get(0).getGroceryList());
+        assertEquals(1, actualGroceryItems.get(0).getAmount());
+
+        assertEquals(product2, actualGroceryItems.get(1).getProduct());
+        assertEquals(grocerylist, actualGroceryItems.get(1).getGroceryList());
+        assertEquals(1, actualGroceryItems.get(1).getAmount());
     }
 
     @Test
@@ -98,24 +96,22 @@ class GroceryItemRepositoryTest {
 
         //Assert
         assertEquals(2, actualGroceryItems.size());
-        assertThat(actualGroceryItems.get(0))
-                .hasProduct(product)
-                .hasGroceryList(grocerylist)
-                .hasAmount(1);
-        assertThat(actualGroceryItems.get(1))
-                .hasProduct(product2)
-                .hasGroceryList(grocerylist)
-                .hasAmount(2);
+        assertEquals(product, actualGroceryItems.get(0).getProduct());
+        assertEquals(grocerylist, actualGroceryItems.get(0).getGroceryList());
+        assertEquals(1, actualGroceryItems.get(0).getAmount());
+
+        assertEquals(product2, actualGroceryItems.get(1).getProduct());
+        assertEquals(grocerylist, actualGroceryItems.get(1).getGroceryList());
+        assertEquals(1, actualGroceryItems.get(1).getAmount());
 
         assertEquals(2, actualGroceryItems2.size());
-        assertThat(actualGroceryItems2.get(0))
-                .hasProduct(product3)
-                .hasGroceryList(grocerylist2)
-                .hasAmount(1);
-        assertThat(actualGroceryItems2.get(1))
-                .hasProduct(product2)
-                .hasGroceryList(grocerylist2)
-                .hasAmount(4);
+        assertEquals(product3, actualGroceryItems2.get(0).getProduct());
+        assertEquals(grocerylist2, actualGroceryItems2.get(0).getGroceryList());
+        assertEquals(1, actualGroceryItems2.get(0).getAmount());
+
+        assertEquals(product2, actualGroceryItems2.get(1).getProduct());
+        assertEquals(grocerylist2, actualGroceryItems2.get(1).getGroceryList());
+        assertEquals(4, actualGroceryItems2.get(1).getAmount());
     }
 
     @Test
