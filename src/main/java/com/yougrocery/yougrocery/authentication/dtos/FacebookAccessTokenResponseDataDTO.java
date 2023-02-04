@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record FacebookAccessTokenDataDTO(
+public record FacebookAccessTokenResponseDataDTO(
         @JsonProperty("app_id") long appId,
         @JsonProperty("user_id") String userId,
         @JsonProperty("is_valid") boolean isValid) {
