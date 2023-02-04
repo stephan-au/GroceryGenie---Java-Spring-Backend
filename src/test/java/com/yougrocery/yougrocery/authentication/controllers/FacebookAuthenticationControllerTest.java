@@ -2,8 +2,8 @@ package com.yougrocery.yougrocery.authentication.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponse;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequest;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
+import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequestDTO;
 import com.yougrocery.yougrocery.authentication.services.FacebookAuthenticationService;
 import com.yougrocery.yougrocery.authentication.services.JwtService;
 import com.yougrocery.yougrocery.authentication.services.UserService;
@@ -38,8 +38,8 @@ class FacebookAuthenticationControllerTest {
 
     @Test
     void authenticate() throws Exception {
-        var authenticationRequest = new FacebookAuthenticationRequest("access_token");
-        var authenticationResponse = new AuthenticationResponse("test_token");
+        var authenticationRequest = new FacebookAuthenticationRequestDTO("access_token");
+        var authenticationResponse = new AuthenticationResponseDTO("test_token");
 
         when(facebookAuthService.authenticateOrCreateUser(any())).thenReturn(authenticationResponse);
 
@@ -52,7 +52,7 @@ class FacebookAuthenticationControllerTest {
                         responseBody()
                                 .containsObjectAsJson(
                                         authenticationResponse,
-                                        AuthenticationResponse.class));
+                                        AuthenticationResponseDTO.class));
 
 
         verify(facebookAuthService).authenticateOrCreateUser(authenticationRequest);

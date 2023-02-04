@@ -1,8 +1,8 @@
 package com.yougrocery.yougrocery.authentication.services;
 
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponse;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
 import com.yougrocery.yougrocery.authentication.dtos.FacebookAccessTokenDTO;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequest;
+import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequestDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class FacebookAuthenticationService {
 
     private final RestTemplate restTemplate = new RestTemplate();;
 
-    public AuthenticationResponse authenticateOrCreateUser(FacebookAuthenticationRequest authRequest) {
+    public AuthenticationResponseDTO authenticateOrCreateUser(FacebookAuthenticationRequestDTO authRequest) {
         String inspectAccessTokenUri = String.format(
                 "graph.facebook.com/debug_token?input_token=%s&access_token=app-token",
                 authRequest.accessToken());

@@ -1,8 +1,8 @@
 package com.yougrocery.yougrocery.authentication.controllers;
 
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequest;
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponse;
-import com.yougrocery.yougrocery.authentication.dtos.RegisterRequest;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
+import com.yougrocery.yougrocery.authentication.dtos.RegisterRequestDTO;
 import com.yougrocery.yougrocery.authentication.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +19,14 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
-    ) {
+    public ResponseEntity<AuthenticationResponseDTO> register(
+            @RequestBody RegisterRequestDTO request) {
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
-    ) {
+    public ResponseEntity<AuthenticationResponseDTO> authenticate(
+            @RequestBody AuthenticationRequestDTO request) {
         return ResponseEntity.ok(service.authenticate(request));
     }
 }

@@ -1,11 +1,10 @@
 package com.yougrocery.yougrocery.authentication.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequest;
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponse;
-import com.yougrocery.yougrocery.authentication.dtos.RegisterRequest;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
+import com.yougrocery.yougrocery.authentication.dtos.RegisterRequestDTO;
 import com.yougrocery.yougrocery.authentication.services.AuthenticationService;
 import com.yougrocery.yougrocery.authentication.services.JwtService;
 import com.yougrocery.yougrocery.authentication.services.UserService;
@@ -42,9 +41,9 @@ class AuthenticationControllerTest {
 
     @Test
     void register() throws Exception {
-        var registerRequest = new RegisterRequest(
+        var registerRequest = new RegisterRequestDTO(
                 "stephan", "auwerda", "stephan@hotmail.com", "test12345");
-        var authenticationResponse = new AuthenticationResponse("test_token");
+        var authenticationResponse = new AuthenticationResponseDTO("test_token");
 
         when(authenticationService.register(any())).thenReturn(authenticationResponse);
 
@@ -57,7 +56,7 @@ class AuthenticationControllerTest {
                         responseBody()
                                 .containsObjectAsJson(
                                         authenticationResponse,
-                                        AuthenticationResponse.class));
+                                        AuthenticationResponseDTO.class));
 
 
         verify(authenticationService).register(registerRequest);
@@ -65,8 +64,8 @@ class AuthenticationControllerTest {
 
     @Test
     void authenticate() throws Exception {
-        var authenticationRequest = new AuthenticationRequest("stephan@hotmail.com", "password");
-        var authenticationResponse = new AuthenticationResponse("test_token");
+        var authenticationRequest = new AuthenticationRequestDTO("stephan@hotmail.com", "password");
+        var authenticationResponse = new AuthenticationResponseDTO("test_token");
 
         when(authenticationService.authenticate(any())).thenReturn(authenticationResponse);
 
@@ -79,7 +78,7 @@ class AuthenticationControllerTest {
                         responseBody()
                                 .containsObjectAsJson(
                                         authenticationResponse,
-                                        AuthenticationResponse.class));
+                                        AuthenticationResponseDTO.class));
 
 
         verify(authenticationService).authenticate(authenticationRequest);

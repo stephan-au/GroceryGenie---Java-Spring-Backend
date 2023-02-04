@@ -1,8 +1,8 @@
 package com.yougrocery.yougrocery.authentication.services;
 
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequest;
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponse;
-import com.yougrocery.yougrocery.authentication.dtos.RegisterRequest;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
+import com.yougrocery.yougrocery.authentication.dtos.RegisterRequestDTO;
 import com.yougrocery.yougrocery.authentication.models.Role;
 import com.yougrocery.yougrocery.authentication.models.User;
 import com.yougrocery.yougrocery.authentication.repositories.UserRepository;
@@ -20,31 +20,31 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponseDTO register(RegisterRequestDTO request) {
         var user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
                 .role(Role.USER)
                 .build();
 
         repository.save(user);
 
-        return new AuthenticationResponse(generateToken(user));
+        return new AuthenticationResponseDTO(generateToken(user));
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponseDTO authenticate(AuthenticationRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        request.email(),
+                        request.password()
                 )
         );
-        var user = repository.findByEmail(request.getEmail())
+        var user = repository.findByEmail(request.email())
                 .orElseThrow();
 
-        return new AuthenticationResponse(generateToken(user));
+        return new AuthenticationResponseDTO(generateToken(user));
     }
 
     private String generateToken(User user) {
