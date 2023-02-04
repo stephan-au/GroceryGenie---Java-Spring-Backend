@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class GrocerylistRepositoryTest {
 
     @Autowired
-    private GrocerylistRepository grocerylistRepo;
+    GrocerylistRepository grocerylistRepo;
     @Autowired
-    private ProductRepository productRepo;
+    ProductRepository productRepo;
     @Autowired
-    private GroceryItemRepository groceryItemRepo;
+    GroceryItemRepository groceryItemRepo;
 
     @Test
     void createTwoGroceryListsWithSameName_works() {

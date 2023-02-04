@@ -24,11 +24,11 @@ import static org.mockito.Mockito.when;
 class GrocerylistServiceTest {
 
     @Mock
-    private GrocerylistRepository grocerylistRepository;
+    GrocerylistRepository grocerylistRepository;
     @Mock
-    private GroceryItemRepository groceryItemRepo;
+    GroceryItemRepository groceryItemRepo;
     @InjectMocks
-    private GrocerylistService grocerylistService;
+    GrocerylistService grocerylistService;
 
     @Test
     void saveGrocerylistWorks() {

@@ -28,17 +28,17 @@ import static org.mockito.Mockito.*;
 class GroceryItemServiceTest {
 
     @Mock
-    private GroceryItemRepository groceryItemRepo;
+    GroceryItemRepository groceryItemRepo;
     @Mock
-    private ProductService productService;
+    ProductService productService;
     @Mock
-    private GrocerylistService grocerylistService;
+    GrocerylistService grocerylistService;
 
     @InjectMocks
-    private GroceryItemService groceryItemService;
+    GroceryItemService groceryItemService;
 
     @Captor
-    private ArgumentCaptor<GroceryItem> groceryItemCaptor;
+    ArgumentCaptor<GroceryItem> groceryItemCaptor;
 
     @Test
     void addGroceryItem_works() {

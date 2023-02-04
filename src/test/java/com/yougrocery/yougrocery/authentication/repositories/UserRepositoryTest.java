@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepo;
+    UserRepository userRepo;
 
     @Test
     void getUserByEmail() {

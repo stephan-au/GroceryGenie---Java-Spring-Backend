@@ -22,13 +22,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
     @Mock
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
 
     @InjectMocks
-    private ProductService productService;
+    ProductService productService;
 
     @Captor
-    private ArgumentCaptor<Product> productCaptor;
+    ArgumentCaptor<Product> productCaptor;
 
     @Test
     void findOrCreatesExistingProduct_returnsExistingProduct() {

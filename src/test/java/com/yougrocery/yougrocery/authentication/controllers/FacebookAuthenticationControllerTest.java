@@ -25,14 +25,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(SecurityConfiguration.class)
 class FacebookAuthenticationControllerTest {
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @Autowired
     ObjectMapper objectMapper;
     @MockBean
-    private JwtService jwtService;
+    JwtService jwtService;
     @MockBean
-    private UserService userService;
+    UserService userService;
     @MockBean
     FacebookAuthenticationService facebookAuthService;
 

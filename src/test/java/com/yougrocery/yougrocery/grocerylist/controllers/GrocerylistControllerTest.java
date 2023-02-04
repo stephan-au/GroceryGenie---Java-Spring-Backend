@@ -30,19 +30,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GrocerylistControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    ObjectMapper objectMapper;
     @MockBean
-    private JwtService jwtService;
+    JwtService jwtService;
     @MockBean
-    private UserService userService;
+    UserService userService;
 
     @MockBean
-    private GrocerylistService grocerylistService;
+    GrocerylistService grocerylistService;
     @MockBean
-    private GroceryItemService groceryItemService;
+    GroceryItemService groceryItemService;
 
     @Captor
     ArgumentCaptor<Grocerylist> capturedGrocerylist;

@@ -24,13 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AddGroceryItemIntegrationTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
     @Autowired
-    private ProductService productService;
+    ProductService productService;
     @Autowired
-    private GrocerylistService grocerylistService;
+    GrocerylistService grocerylistService;
     @Autowired
-    private GroceryItemRepository groceryItemRepository;
+    GroceryItemRepository groceryItemRepository;
 
     @Test
     @WithMockUser
@@ -52,15 +52,15 @@ public class AddGroceryItemIntegrationTest {
         assertEquals(1, groceryItems.get(0).getAmount());
     }
 
-    private Product saveProduct(String expectedProductName) {
+    Product saveProduct(String expectedProductName) {
         return productService.save(new Product(expectedProductName));
     }
 
-    private Grocerylist saveGrocerylist(String name) {
+    Grocerylist saveGrocerylist(String name) {
         return grocerylistService.save(new Grocerylist(name));
     }
 
-    private List<GroceryItem> findGroceryItems(Grocerylist grocerylist) {
+    List<GroceryItem> findGroceryItems(Grocerylist grocerylist) {
         return groceryItemRepository.findByGroceryListId(grocerylist.getId());
     }
 

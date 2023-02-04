@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTest {
 
-    private final User user = new User("test_user");
+    final User user = new User("test_user");
 
     @InjectMocks
-    private JwtService jwtService;
+    JwtService jwtService;
 
     @Test
     public void testExtractUsername() {

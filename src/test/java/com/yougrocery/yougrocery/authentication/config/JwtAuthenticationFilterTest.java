@@ -21,18 +21,18 @@ import static org.mockito.Mockito.*;
 class JwtAuthenticationFilterTest {
 
     @Mock
-    private JwtService jwtService;
+    JwtService jwtService;
     @Mock
-    private UserDetailsService userDetailsService;
+    UserDetailsService userDetailsService;
     @Mock
-    private HttpServletRequest request;
+    HttpServletRequest request;
     @Mock
-    private HttpServletResponse response;
+    HttpServletResponse response;
     @Mock
-    private FilterChain filterChain;
+    FilterChain filterChain;
 
     @InjectMocks
-    private JwtAuthenticationFilter jwtFilter;
+    JwtAuthenticationFilter jwtFilter;
 
     @Test
     public void doFilterInternal_GivenInvalidAuthHeader_ShouldProceedWithFilterChain() throws Exception {

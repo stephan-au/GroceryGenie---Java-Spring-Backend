@@ -26,15 +26,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class GroceryItemControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @MockBean
-    private JwtService jwtService;
+    JwtService jwtService;
     @MockBean
-    private UserService userService;
+    UserService userService;
 
     @MockBean
-    private GroceryItemService groceryItemService;
+    GroceryItemService groceryItemService;
 
     @Test
     @WithMockUser
