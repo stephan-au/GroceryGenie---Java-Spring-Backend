@@ -1,8 +1,8 @@
 package com.yougrocery.yougrocery.grocerylist.controllers;
 
+import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
 import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
 import com.yougrocery.yougrocery.grocerylist.models.Product;
-import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
 import com.yougrocery.yougrocery.grocerylist.repositories.GroceryItemRepository;
 import com.yougrocery.yougrocery.grocerylist.services.GrocerylistService;
 import com.yougrocery.yougrocery.grocerylist.services.ProductService;
@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,14 +33,14 @@ public class AddGroceryItemIntegrationTest {
     private GroceryItemRepository groceryItemRepository;
 
     @Test
+    @WithMockUser
     void addExistingProductOnExistingGrocerylist_addGroceryItem() throws Exception {
-        //TODO login first
         String expectedProductName = "Product Name 123";
         Product expectedProduct = saveProduct(expectedProductName);
         Grocerylist expectedGrocerylist = saveGrocerylist("Grocerylist 1");
 
         //Act
-        mockMvc.perform(post("/api/product_on_grocerylist/grocerylist/{id}/product/{product_name}",
+        mockMvc.perform(post("/api/v1/grocery_item/grocerylist/{id}/product/{product_name}",
                         expectedGrocerylist.getId(),
                         expectedProductName))
                 .andExpectAll(status().isCreated());

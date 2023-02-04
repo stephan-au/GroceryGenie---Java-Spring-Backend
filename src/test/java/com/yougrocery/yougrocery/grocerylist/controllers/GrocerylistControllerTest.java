@@ -1,7 +1,9 @@
 package com.yougrocery.yougrocery.grocerylist.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
 import com.yougrocery.yougrocery.authentication.services.JwtService;
+import com.yougrocery.yougrocery.authentication.services.UserService;
 import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
 import com.yougrocery.yougrocery.grocerylist.services.GroceryItemService;
 import com.yougrocery.yougrocery.grocerylist.services.GrocerylistService;
@@ -11,6 +13,8 @@ import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GrocerylistController.class)
+@Import(SecurityConfiguration.class)
 class GrocerylistControllerTest {
 
     @Autowired
@@ -27,25 +32,40 @@ class GrocerylistControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+    @MockBean
+    private JwtService jwtService;
+    @MockBean
+    private UserService userService;
 
     @MockBean
     private GrocerylistService grocerylistService;
     @MockBean
     private GroceryItemService groceryItemService;
-    @MockBean
-    private JwtService jwtService;
 
     @Captor
     ArgumentCaptor<Grocerylist> capturedGrocerylist;
 
     @Test
+    void rootWhenUnauthenticatedThen403() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getGrocerylistWhenUnauthenticatedThen403() throws Exception {
+        mockMvc.perform(get("/api/v1/grocerylist/{id}", 1))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser
     void createGrocerylistWorks() throws Exception {
         //Arrange
         var grocerylist = new Grocerylist("Test name 1");
         when(grocerylistService.save(any())).thenAnswer(returnsFirstArg());
 
         //Act
-        mockMvc.perform(post("/api/grocerylist")
+        mockMvc.perform(post("/api/v1/grocerylist")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(grocerylist)))
                 .andExpectAll(
@@ -58,29 +78,33 @@ class GrocerylistControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getGrocerylistWorks() throws Exception {
         //Arrange
         var grocerylist = new Grocerylist("Test name 1");
         when(grocerylistService.findById(1)).thenReturn(grocerylist);
 
         //Act
-        mockMvc.perform(get("/api/grocerylist/{id}", 1))
+        mockMvc.perform(get("/api/v1/grocerylist/{id}", 1)
+                        .header("Authorization", "Bearer " + "test-token"))
                 .andExpectAll(
                         status().isOk(),
                         ResponseBodyMatchers.responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
+
 
         //Assert
         verify(grocerylistService).findById(1);
     }
 
     @Test
+    @WithMockUser
     void updateGrocerylistWorks() throws Exception {
         //Arrange
         var grocerylist = new Grocerylist("Test name 1");
         when(grocerylistService.save(any())).thenAnswer(returnsFirstArg());
 
         //Act
-        mockMvc.perform(put("/api/grocerylist")
+        mockMvc.perform(put("/api/v1/grocerylist")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(grocerylist)))
                 .andExpectAll(
@@ -93,10 +117,11 @@ class GrocerylistControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteGrocerylistWorks() throws Exception {
         //Act + Assert
         int grocerylistId = 1;
-        mockMvc.perform(delete("/api/grocerylist/{id}", grocerylistId)
+        mockMvc.perform(delete("/api/v1/grocerylist/{id}", grocerylistId)
                         .contentType("application/json"))
                 .andExpect(status().isOk());
 

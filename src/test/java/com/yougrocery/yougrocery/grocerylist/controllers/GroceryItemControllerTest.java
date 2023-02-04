@@ -1,6 +1,8 @@
 package com.yougrocery.yougrocery.grocerylist.controllers;
 
+import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
 import com.yougrocery.yougrocery.authentication.services.JwtService;
+import com.yougrocery.yougrocery.authentication.services.UserService;
 import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
 import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
 import com.yougrocery.yougrocery.grocerylist.models.Product;
@@ -9,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.yougrocery.yougrocery.grocerylist.controllers.ResponseBodyMatchers.responseBody;
@@ -18,18 +23,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GroceryItemController.class)
+@Import(SecurityConfiguration.class)
 class GroceryItemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private GroceryItemService groceryItemService;
-    @MockBean
     private JwtService jwtService;
+    @MockBean
+    private UserService userService;
 
+    @MockBean
+    private GroceryItemService groceryItemService;
 
     @Test
+    @WithMockUser
     void addGroceryItem_works() throws Exception {
         //Arrange
         var grocerylist = new Grocerylist("Test name 1");
@@ -39,11 +48,13 @@ class GroceryItemControllerTest {
         when(groceryItemService.addGroceryItem(product.getName(), grocerylist.getId()))
                 .thenReturn(groceryItem);
 
+
         //Act
         mockMvc.perform(post(
-                        "/api/product_on_grocerylist/grocerylist/{grocerylist_id}/product/{product_name}",
+                        "/api/v1/grocery_item/grocerylist/{grocerylist_id}/product/{product_name}",
                         grocerylist.getId(),
-                        product.getName()))
+                        product.getName())
+                        .header("Authorization", "Bearer " + "test-token"))
                 .andExpectAll(
                         status().isCreated(),
                         responseBody().containsObjectAsJson(groceryItem, GroceryItem.class));
@@ -54,13 +65,14 @@ class GroceryItemControllerTest {
     }
 
     @Test
+    @WithMockUser
     void findGroceryItems_works() throws Exception {
         //Arrange
         int grocerylistId = 1;
 
         //Act
         mockMvc.perform(get(
-                        "/api/product_on_grocerylist/grocerylist/{grocerylist_id}",
+                        "/api/v1/grocery_item/grocerylist/{grocerylist_id}",
                         grocerylistId))
                 .andExpectAll(status().isOk());
 
@@ -70,12 +82,13 @@ class GroceryItemControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteGroceryItem_works() throws Exception {
         int groceryItemId = 1;
 
         //Act
         mockMvc.perform(delete(
-                        "/api/product_on_grocerylist/{id}",
+                        "/api/v1/grocery_item/{id}",
                         groceryItemId))
                 .andExpectAll(status().isOk());
 
