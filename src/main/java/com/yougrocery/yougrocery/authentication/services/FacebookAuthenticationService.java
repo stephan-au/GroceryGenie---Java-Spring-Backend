@@ -10,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class FacebookAuthenticationService {
 
     private final RestTemplate restTemplate = new RestTemplate();;

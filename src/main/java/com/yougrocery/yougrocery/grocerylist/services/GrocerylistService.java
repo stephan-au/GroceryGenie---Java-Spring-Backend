@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class GrocerylistService {
 
@@ -33,6 +32,7 @@ public class GrocerylistService {
                         () -> new NoSuchElementException("Grocerylist with id: " + id + " doesn't exist"));
     }
 
+    @Transactional
     public void delete(int id) {
         groceryItemRepo.deleteByGroceryListId(id);
         grocerylistRepo.deleteById(id);

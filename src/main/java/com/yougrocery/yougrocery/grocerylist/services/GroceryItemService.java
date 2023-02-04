@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class GroceryItemService {
     private final GroceryItemRepository groceryItemRepo;
     private final ProductService productService;
     private final GrocerylistService grocerylistService;
 
+    @Transactional
     public GroceryItem addGroceryItem(String productName, int grocerylistId) {
         Product product = findOrCreateProduct(productName);
         Grocerylist grocerylist = grocerylistService.findById(grocerylistId);

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
