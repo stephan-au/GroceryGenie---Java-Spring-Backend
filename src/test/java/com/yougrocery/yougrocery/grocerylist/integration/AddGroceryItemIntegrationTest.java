@@ -1,4 +1,4 @@
-package com.yougrocery.yougrocery.grocerylist.controllers;
+package com.yougrocery.yougrocery.grocerylist.integration;
 
 import com.yougrocery.yougrocery.grocerylist.models.GroceryItem;
 import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
