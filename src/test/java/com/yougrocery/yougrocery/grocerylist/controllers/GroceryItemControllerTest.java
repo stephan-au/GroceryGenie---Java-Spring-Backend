@@ -12,11 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.yougrocery.yougrocery.grocerylist.controllers.ResponseBodyMatchers.responseBody;
+import static com.yougrocery.yougrocery.assertionhelpers.ResponseBodyMatchers.responseBody;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,8 +49,7 @@ class GroceryItemControllerTest {
 
 
         //Act
-        mockMvc.perform(post(
-                        "/api/v1/grocery_item/grocerylist/{grocerylist_id}/product/{product_name}",
+        mockMvc.perform(post("/api/v1/grocery_item/grocerylist/{grocerylist_id}/product/{product_name}",
                         grocerylist.getId(),
                         product.getName())
                         .header("Authorization", "Bearer " + "test-token"))
@@ -71,9 +69,7 @@ class GroceryItemControllerTest {
         int grocerylistId = 1;
 
         //Act
-        mockMvc.perform(get(
-                        "/api/v1/grocery_item/grocerylist/{grocerylist_id}",
-                        grocerylistId))
+        mockMvc.perform(get("/api/v1/grocery_item/grocerylist/{grocerylist_id}", grocerylistId))
                 .andExpectAll(status().isOk());
 
         //Assert
@@ -87,9 +83,7 @@ class GroceryItemControllerTest {
         int groceryItemId = 1;
 
         //Act
-        mockMvc.perform(delete(
-                        "/api/v1/grocery_item/{id}",
-                        groceryItemId))
+        mockMvc.perform(delete("/api/v1/grocery_item/{id}", groceryItemId))
                 .andExpectAll(status().isOk());
 
         //Assert

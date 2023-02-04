@@ -1,4 +1,4 @@
-package com.yougrocery.yougrocery.grocerylist.controllers;
+package com.yougrocery.yougrocery.assertionhelpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,14 +9,14 @@ import java.io.UnsupportedEncodingException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ResponseBodyMatchers {
+public class ResponseBodyMatchers {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    static ResponseBodyMatchers responseBody() {
+    public static ResponseBodyMatchers responseBody() {
         return new ResponseBodyMatchers();
     }
 
-    <T> ResultMatcher containsObjectAsJson(Object expectedObject,
+    public <T> ResultMatcher containsObjectAsJson(Object expectedObject,
                                            Class<T> targetClass) {
 
         return mvcResult -> {

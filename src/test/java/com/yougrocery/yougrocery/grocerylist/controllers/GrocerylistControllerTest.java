@@ -7,6 +7,7 @@ import com.yougrocery.yougrocery.authentication.services.UserService;
 import com.yougrocery.yougrocery.grocerylist.models.Grocerylist;
 import com.yougrocery.yougrocery.grocerylist.services.GroceryItemService;
 import com.yougrocery.yougrocery.grocerylist.services.GrocerylistService;
+import com.yougrocery.yougrocery.assertionhelpers.ResponseBodyMatchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.yougrocery.yougrocery.assertionhelpers.ResponseBodyMatchers.responseBody;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
@@ -70,7 +72,7 @@ class GrocerylistControllerTest {
                         .content(objectMapper.writeValueAsString(grocerylist)))
                 .andExpectAll(
                         status().isCreated(),
-                        ResponseBodyMatchers.responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
+                        responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
 
         //Assert
         verify(grocerylistService).save(capturedGrocerylist.capture());
@@ -89,7 +91,7 @@ class GrocerylistControllerTest {
                         .header("Authorization", "Bearer " + "test-token"))
                 .andExpectAll(
                         status().isOk(),
-                        ResponseBodyMatchers.responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
+                        responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
 
 
         //Assert
@@ -109,7 +111,7 @@ class GrocerylistControllerTest {
                         .content(objectMapper.writeValueAsString(grocerylist)))
                 .andExpectAll(
                         status().isOk(),
-                        ResponseBodyMatchers.responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
+                        responseBody().containsObjectAsJson(grocerylist, Grocerylist.class));
 
         //Assert
         verify(grocerylistService).save(capturedGrocerylist.capture());
