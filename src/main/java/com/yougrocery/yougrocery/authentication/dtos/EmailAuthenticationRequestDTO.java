@@ -1,8 +1,6 @@
 package com.yougrocery.yougrocery.authentication.dtos;
 
-public record RegisterRequestDTO(
-        String firstName,
-        String lastName,
+public record EmailAuthenticationRequestDTO(
         String email,
         String password) {
 }

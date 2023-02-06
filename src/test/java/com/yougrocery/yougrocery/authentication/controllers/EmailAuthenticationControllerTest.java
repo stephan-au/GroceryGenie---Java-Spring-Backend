@@ -2,10 +2,10 @@ package com.yougrocery.yougrocery.authentication.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
-import com.yougrocery.yougrocery.authentication.dtos.AuthenticationRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.EmailAuthenticationRequestDTO;
 import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
-import com.yougrocery.yougrocery.authentication.dtos.RegisterRequestDTO;
-import com.yougrocery.yougrocery.authentication.services.AuthenticationService;
+import com.yougrocery.yougrocery.authentication.dtos.EmailRegisterRequestDTO;
+import com.yougrocery.yougrocery.authentication.services.EmailAuthenticationService;
 import com.yougrocery.yougrocery.authentication.services.JwtService;
 import com.yougrocery.yougrocery.authentication.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -23,9 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(AuthenticationController.class)
+@WebMvcTest(EmailAuthenticationController.class)
 @Import(SecurityConfiguration.class)
-class AuthenticationControllerTest {
+class EmailAuthenticationControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -37,15 +37,15 @@ class AuthenticationControllerTest {
     @MockBean
     UserService userService;
     @MockBean
-    AuthenticationService authenticationService;
+    EmailAuthenticationService emailAuthenticationService;
 
     @Test
     void register() throws Exception {
-        var registerRequest = new RegisterRequestDTO(
+        var registerRequest = new EmailRegisterRequestDTO(
                 "stephan", "auwerda", "stephan@hotmail.com", "test12345");
         var authenticationResponse = new AuthenticationResponseDTO("test_token");
 
-        when(authenticationService.register(any())).thenReturn(authenticationResponse);
+        when(emailAuthenticationService.register(any())).thenReturn(authenticationResponse);
 
 
         mockMvc.perform(post("/api/v1/auth/register")
@@ -59,15 +59,15 @@ class AuthenticationControllerTest {
                                         AuthenticationResponseDTO.class));
 
 
-        verify(authenticationService).register(registerRequest);
+        verify(emailAuthenticationService).register(registerRequest);
     }
 
     @Test
     void authenticate() throws Exception {
-        var authenticationRequest = new AuthenticationRequestDTO("stephan@hotmail.com", "password");
+        var authenticationRequest = new EmailAuthenticationRequestDTO("stephan@hotmail.com", "password");
         var authenticationResponse = new AuthenticationResponseDTO("test_token");
 
-        when(authenticationService.authenticate(any())).thenReturn(authenticationResponse);
+        when(emailAuthenticationService.authenticate(any())).thenReturn(authenticationResponse);
 
 
         mockMvc.perform(post("/api/v1/auth/authenticate")
@@ -81,6 +81,6 @@ class AuthenticationControllerTest {
                                         AuthenticationResponseDTO.class));
 
 
-        verify(authenticationService).authenticate(authenticationRequest);
+        verify(emailAuthenticationService).authenticate(authenticationRequest);
     }
 }
