@@ -1,9 +1,8 @@
 package com.yougrocery.yougrocery.authentication.services;
 
 import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAccessTokenDTO;
+import com.yougrocery.yougrocery.authentication.dtos.FacebookAccessTokenResponseDTO;
 import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequestDTO;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,18 +11,32 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class FacebookAuthenticationService {
 
-    private final RestTemplate restTemplate = new RestTemplate();;
+    final static long APP_ID_ON_FACEBOOK = 553621056195797L;
+    private final RestTemplate restTemplate;
 
     public AuthenticationResponseDTO authenticateOrCreateUser(FacebookAuthenticationRequestDTO authRequest) {
-        String inspectAccessTokenUri = String.format(
-                "graph.facebook.com/debug_token?input_token=%s&access_token=app-token",
-                authRequest.accessToken());
+        validateAccessToken(authRequest.accessToken());
 
-        FacebookAccessTokenDTO response = restTemplate.getForObject(inspectAccessTokenUri, FacebookAccessTokenDTO.class);
-
-        if (response == null) {
-
-        }
         return null;
     }
+
+    private void validateAccessToken(String accessToken) {
+        FacebookAccessTokenResponseDTO response = restGetAccessToken(accessToken);
+
+        if(!response.data().isValid()){
+            throw new IllegalArgumentException("Access token not valid");
+        }
+        if(response.data().appId() != APP_ID_ON_FACEBOOK){
+            throw new IllegalArgumentException("Access token not valid, wrong app id: " + response.data().appId());
+        }
+    }
+
+    private FacebookAccessTokenResponseDTO restGetAccessToken(String accessToken) {
+        String url = "https://graph.facebook.com/v16.0/debug_token?input_token=" + accessToken + "&access_token=" + accessToken ;
+
+        return restTemplate.getForObject(
+                url,
+                FacebookAccessTokenResponseDTO.class);
+    }
 }
+
