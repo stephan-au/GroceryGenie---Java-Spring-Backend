@@ -18,7 +18,7 @@ public class FacebookAuthenticationController {
     private final FacebookAuthenticationService facebookAuthService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponseDTO> authenticateOrCreateUser(@RequestBody FacebookLoginRequestDTO accessToken) {
+    public ResponseEntity<AuthenticationResponseDTO> loginOrCreateUser(@RequestBody FacebookLoginRequestDTO accessToken) {
         return ResponseEntity.ok(facebookAuthService.loginOrCreateUser(accessToken));
     }
 }
