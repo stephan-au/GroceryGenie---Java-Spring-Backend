@@ -4,6 +4,7 @@ import com.yougrocery.yougrocery.authentication.config.RestTemplateClient;
 import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookPictureDataDTO;
 import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookPictureResponseDTO;
 import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookUserResponseDTO;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +33,7 @@ class FacebookRestServiceTest {
     @Autowired
     FacebookRestService fbRestService;
 
+    @Disabled("Get new Access Token of test user on Facebook's Graph API. (Token expires in 1 day)")
     @Test
     void shouldGetUserFromFacebook() {
         FacebookUserResponseDTO actualFbUser = fbRestService.getUser(
