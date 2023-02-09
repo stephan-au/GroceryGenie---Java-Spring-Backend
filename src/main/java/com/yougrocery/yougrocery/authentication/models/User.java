@@ -21,6 +21,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Builder
 public class User implements UserDetails {
     @Id
@@ -28,7 +29,7 @@ public class User implements UserDetails {
     @SequenceGenerator(name = "users_generator", sequenceName = "seq_users", allocationSize = 1)
     private int id;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 100)
     @NotBlank(message = "Email cannot be blank")
     @Email
     @Size(max = 100)
@@ -39,17 +40,11 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @Size(max = 50)
-    private String firstName;
-
-    @Size(max = 50)
-    private String lastName;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne
-    @JoinColumn(name = "user_profile_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
     private Profile userProfile;
 
     public User(String email) {
