@@ -4,13 +4,15 @@ import com.yougrocery.yougrocery.authentication.models.Profile;
 import com.yougrocery.yougrocery.authentication.models.Role;
 import com.yougrocery.yougrocery.authentication.models.User;
 import jakarta.validation.ConstraintViolationException;
+import org.assertj.core.api.AbstractObjectAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.util.StringUtils;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 class UserRepositoryTest {
@@ -32,7 +34,28 @@ class UserRepositoryTest {
 
         userRepository.save(user);
 
-        assertThat(userRepository.findByEmail("test@email.com")).get().isEqualTo(user);
+        AbstractObjectAssert<?, User> actualUser = assertThat(findByEmail("test@email.com")).get();
+        actualUser
+                .extracting(User::getId)
+                .isEqualTo(1);
+        actualUser
+                .extracting(User::getEmail)
+                .isEqualTo("test@email.com");
+        actualUser
+                .extracting(User::getPassword)
+                .isEqualTo("testPassword");
+        actualUser
+                .extracting(User::getRole)
+                .isEqualTo(Role.USER);
+        actualUser
+                .extracting(u -> u.getUserProfile().getId())
+                .isEqualTo(1);
+        actualUser
+                .extracting(u -> u.getUserProfile().getDisplayName())
+                .isEqualTo("Test User");
+        actualUser
+                .extracting(u -> u.getUserProfile().getProfilePictureUrl())
+                .isEqualTo("https://test-url.com");
     }
 
     //TODO id van Facebook moet ik opslaan en mag niet overlappen
@@ -51,7 +74,7 @@ class UserRepositoryTest {
 
         userRepository.save(user);
 
-        assertThat(userRepository.findByEmail("test@email.com")).get().isEqualTo(user);
+        assertThat(findByEmail("test@email.com")).get().isEqualTo(user);
     }
 
     @Test
@@ -134,5 +157,11 @@ class UserRepositoryTest {
         assertThrows(
                 ConstraintViolationException.class,
                 () -> userRepository.saveAndFlush(user));
+    }
+
+
+
+    private Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
