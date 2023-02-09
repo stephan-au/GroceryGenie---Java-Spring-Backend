@@ -1,5 +1,6 @@
 package com.yougrocery.yougrocery.grocerylist.controllers;
 
+import com.yougrocery.yougrocery.authentication.config.EncryptionConfiguration;
 import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
 import com.yougrocery.yougrocery.authentication.services.JwtService;
 import com.yougrocery.yougrocery.authentication.services.UserService;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GroceryItemController.class)
-@Import(SecurityConfiguration.class)
+@Import({SecurityConfiguration.class, EncryptionConfiguration.class})
 class GroceryItemControllerTest {
 
     @Autowired

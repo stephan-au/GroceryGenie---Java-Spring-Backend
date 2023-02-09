@@ -1,6 +1,7 @@
 package com.yougrocery.yougrocery.authentication.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yougrocery.yougrocery.authentication.config.EncryptionConfiguration;
 import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
 import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
 import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookLoginRequestDTO;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FacebookAuthenticationController.class)
-@Import(SecurityConfiguration.class)
+@Import({SecurityConfiguration.class, EncryptionConfiguration.class})
 class FacebookAuthenticationControllerTest {
     @Autowired
     MockMvc mockMvc;

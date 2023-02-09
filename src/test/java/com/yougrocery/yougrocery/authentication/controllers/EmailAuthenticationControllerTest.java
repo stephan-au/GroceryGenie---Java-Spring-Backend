@@ -1,6 +1,7 @@
 package com.yougrocery.yougrocery.authentication.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yougrocery.yougrocery.authentication.config.EncryptionConfiguration;
 import com.yougrocery.yougrocery.authentication.config.SecurityConfiguration;
 import com.yougrocery.yougrocery.authentication.dtos.EmailAuthenticationRequestDTO;
 import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(EmailAuthenticationController.class)
-@Import(SecurityConfiguration.class)
+@Import({SecurityConfiguration.class, EncryptionConfiguration.class})
 class EmailAuthenticationControllerTest {
     @Autowired
     MockMvc mockMvc;
