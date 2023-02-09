@@ -2,150 +2,131 @@ package com.yougrocery.yougrocery.authentication.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.yougrocery.yougrocery.authentication.config.RestTemplateClient;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAccessTokenResponseDTO;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAccessTokenResponseDataDTO;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
+import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookLoginRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookPictureDataDTO;
+import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookPictureResponseDTO;
+import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookUserResponseDTO;
+import com.yougrocery.yougrocery.authentication.models.Role;
+import com.yougrocery.yougrocery.authentication.models.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
-import static com.yougrocery.yougrocery.authentication.services.FacebookAuthenticationService.APP_ID_ON_FACEBOOK;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = FacebookAuthenticationService.class)
-@Import(RestTemplateClient.class)
-@ImportAutoConfiguration(RestTemplateAutoConfiguration.class)
-class FacebookAuthenticationServiceTest {
+@ExtendWith(MockitoExtension.class)
+class FacebookAuthenticationServiceMockedTest {
 
-    @Autowired
+    @Mock
+    FacebookRestService fbRestService;
+
+    @Mock
+    UserService userService;
+
+    @Mock
+    JwtService jwtService;
+
+    @Mock
+    PasswordGenerator passwordGenerator;
+
+    @InjectMocks
     FacebookAuthenticationService fbAuthService;
+
+    FacebookLoginRequestDTO authRequest = new FacebookLoginRequestDTO("access_token");
+    FacebookUserResponseDTO fbUser = FacebookUserResponseDTO.builder()
+            .id("12345")
+            .email("stephan-0@hotmail.com")
+            .firstName("Stephan")
+            .lastName("Auwerda")
+            .picture(new FacebookPictureResponseDTO(
+                    new FacebookPictureDataDTO("720", "720", "https://photo@url.nl")))
+            .build();
 
     @Test
     void deserializeFacebookAuthenticationTokenDTO() throws Exception {
         //Arrange
         final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
-        var expectedAccessToken = new FacebookAccessTokenResponseDTO(
-                new FacebookAccessTokenResponseDataDTO(
-                        138483919580948L,
-                        "a10x",
-                        true)
-        );
-
-        String accessTokenJson = """
+        String userJson = """
                 {
+                  "email": "stephan-0@hotmail.com",
+                  "first_name": "Stephan",
+                  "last_name": "Auwerda",
+                  "id": "12345",
+                  "picture": {
                     "data": {
-                        "app_id": 138483919580948,
-                        "type": "USER",
-                        "application": "Social Cafe",
-                        "expires_at": 1352419328,
-                        "is_valid": true,
-                        "issued_at": 1347235328,
-                        "metadata": {
-                            "sso": "iphone-safari"
-                        },
-                        "scopes": [
-                            "email",
-                            "publish_actions"
-                        ],
-                        "user_id": "a10x"
+                      "height": 720,
+                      "url": "https://photo@url.nl",
+                      "width": 720
                     }
+                  }
                 }
                  """;
 
         //Act
-        FacebookAccessTokenResponseDTO deserializedJson = mapper.readValue(accessTokenJson, FacebookAccessTokenResponseDTO.class);
+        FacebookUserResponseDTO deserializedJson = mapper.readValue(userJson, FacebookUserResponseDTO.class);
 
         //Assert
-        assertThat(deserializedJson).isEqualTo(expectedAccessToken);
+        assertThat(deserializedJson).isEqualTo(fbUser);
     }
 
     @Test
-    void authenticateValidAccessTokenOfNonExistingUser() {
-        var authRequest = new FacebookAuthenticationRequestDTO(
-                "EAAH3gZCJlDNUBAHsDDVsorYp0PU8v1XXiYRenfVQeuU3b8INHd6lywVE0oSwT0ZAZBazEfuAZBjZA6xkm1tcF4" +
-                        "hyCkWCnnPsY9bu17IbuZCNmG6abQ1sOlMd9TuCpeg9xiPOGixmQ3DXrF4fpPYbgNwNMStpG0y7HlSlRibVPyJ14ZB" +
-                        "8XvtFlDDRr3ZBGhKJQezJFqF2FAWaMNlCZCvTRQwwTVkWrZBZBKwwqMZCfU4fZCb9ysojQnDok8pUe5u8mWZAIsgV0ZD");
+    void whenFindUserReturnsUser_thenGenerateToken() {
+        User user = new User();
 
-        assertDoesNotThrow(() -> fbAuthService.authenticateOrCreateUser(authRequest));
+        when(fbRestService.getUser(authRequest.accessToken()))
+                .thenReturn(fbUser);
+
+        when(userService.findById(Integer.parseInt(fbUser.id())))
+                .thenReturn(Optional.of(user));
+
+        when(jwtService.generateToken(user))
+                .thenReturn("generated_token");
+
+        AuthenticationResponseDTO response = fbAuthService.loginOrCreateUser(authRequest);
+
+        assertNotNull(response);
+        assertEquals("generated_token", response.token());
+
+        verify(fbRestService).getUser(authRequest.accessToken());
+        verify(userService).findById(Integer.parseInt(fbUser.id()));
+        verify(jwtService).generateToken(user);
+        verifyNoInteractions(passwordGenerator);
     }
 
     @Test
-    void authenticateInvalidAccessToken() {
-        var authRequest = new FacebookAuthenticationRequestDTO(
-                "test12345");
+    void whenFindUserReturnsEmpty_thenRegisterUserAndGenerateToken() {
+        // Arrange
+        User registeredUser = User.builder().id(1).build();
 
-        assertThrows(HttpClientErrorException.class, () -> fbAuthService.authenticateOrCreateUser(authRequest));
-    }
-}
+        when(fbRestService.getUser(authRequest.accessToken())).thenReturn(fbUser);
+        when(userService.findById(Integer.parseInt(fbUser.id()))).thenReturn(Optional.empty());
+        when(passwordGenerator.generatePassword(8)).thenReturn("password");
+        when(userService.registerUser(any())).thenReturn(registeredUser);
+        when(jwtService.generateToken(registeredUser)).thenReturn("token");
 
-@ExtendWith(MockitoExtension.class)
-class FacebookAuthenticationServiceMockedTest {
+        // Act
+        AuthenticationResponseDTO responseDTO = fbAuthService.loginOrCreateUser(authRequest);
 
-    @Mock
-    RestTemplate restTemplate;
+        // Assert
+        assertEquals("token", responseDTO.token());
 
-    @InjectMocks
-    FacebookAuthenticationService fbAuthService;
-
-    @Test
-    void authenticateValidAccessTokenOfNonExistingUser() {
-        //Arrange
-        var expectedTokenResponse = new FacebookAccessTokenResponseDTO(
-                new FacebookAccessTokenResponseDataDTO(APP_ID_ON_FACEBOOK, "1234567890", true));
-
-        when(restTemplate.getForObject(any(String.class), eq(FacebookAccessTokenResponseDTO.class)))
-                .thenReturn(expectedTokenResponse);
-
-        var authRequest = new FacebookAuthenticationRequestDTO("accessTokenMock");
-
-
-        //Act + assert
-        assertDoesNotThrow(() -> fbAuthService.authenticateOrCreateUser(authRequest));
-    }
-
-    @Test
-    void authenticateInvalidAppID() {
-        //Arrange
-        var expectedTokenResponse = new FacebookAccessTokenResponseDTO(
-                new FacebookAccessTokenResponseDataDTO(1234L, "1234567890", true));
-
-        when(restTemplate.getForObject(any(String.class), eq(FacebookAccessTokenResponseDTO.class)))
-                .thenReturn(expectedTokenResponse);
-
-        var authRequest = new FacebookAuthenticationRequestDTO("accessTokenMock");
-
-        //Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> fbAuthService.authenticateOrCreateUser(authRequest));
-    }
-
-    @Test
-    void authenticateInvalidToken() {
-        //Arrange
-        var expectedTokenResponse = new FacebookAccessTokenResponseDTO(
-                new FacebookAccessTokenResponseDataDTO(APP_ID_ON_FACEBOOK, "1234567890", false));
-
-        when(restTemplate.getForObject(any(String.class), eq(FacebookAccessTokenResponseDTO.class)))
-                .thenReturn(expectedTokenResponse);
-
-        var authRequest = new FacebookAuthenticationRequestDTO("accessTokenMock");
-
-        //Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> fbAuthService.authenticateOrCreateUser(authRequest));
+        verify(userService).registerUser(argThat(
+                user -> user.getPassword().equals("password") &&
+                        user.getEmail().equals(fbUser.email()) &&
+                        user.getId() == Integer.parseInt(fbUser.id()) &&
+                        user.getRole().equals(Role.FACEBOOK_USER) &&
+                        user.getUserProfile().getDisplayName().equals(
+                                String.format("%s %s", fbUser.firstName(), fbUser.lastName())) &&
+                        user.getUserProfile().getProfilePictureUrl().equals(fbUser.picture().data().url())
+        ));
     }
 }

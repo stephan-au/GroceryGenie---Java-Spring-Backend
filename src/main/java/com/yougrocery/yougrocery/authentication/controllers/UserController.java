@@ -18,6 +18,6 @@ public class UserController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") int id) {
-        return ResponseEntity.ok().body(userService.getUser(id));
+        return ResponseEntity.ok().body(userService.findByIdOrThrow(id));
     }
 }

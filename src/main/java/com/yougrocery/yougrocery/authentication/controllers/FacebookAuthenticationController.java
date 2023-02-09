@@ -1,7 +1,7 @@
 package com.yougrocery.yougrocery.authentication.controllers;
 
 import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookLoginRequestDTO;
 import com.yougrocery.yougrocery.authentication.services.FacebookAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class FacebookAuthenticationController {
     private final FacebookAuthenticationService facebookAuthService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponseDTO> authenticateOrCreateUser(@RequestBody FacebookAuthenticationRequestDTO accessToken) {
-        return ResponseEntity.ok(facebookAuthService.authenticateOrCreateUser(accessToken));
+    public ResponseEntity<AuthenticationResponseDTO> authenticateOrCreateUser(@RequestBody FacebookLoginRequestDTO accessToken) {
+        return ResponseEntity.ok(facebookAuthService.loginOrCreateUser(accessToken));
     }
 }

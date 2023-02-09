@@ -1,42 +1,47 @@
 package com.yougrocery.yougrocery.authentication.services;
 
 import com.yougrocery.yougrocery.authentication.dtos.AuthenticationResponseDTO;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAccessTokenResponseDTO;
-import com.yougrocery.yougrocery.authentication.dtos.FacebookAuthenticationRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookLoginRequestDTO;
+import com.yougrocery.yougrocery.authentication.dtos.facebook.FacebookUserResponseDTO;
+import com.yougrocery.yougrocery.authentication.exceptions.InternalServerException;
+import com.yougrocery.yougrocery.authentication.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class FacebookAuthenticationService {
+    private final FacebookRestService fbRestService;
+    private final UserService userService;
+    private final JwtService jwtService;
+    private final PasswordGenerator passwordGenerator;
 
-    final static long APP_ID_ON_FACEBOOK = 553621056195797L;
-    private final RestTemplate restTemplate;
+    public AuthenticationResponseDTO loginOrCreateUser(FacebookLoginRequestDTO authRequest) {
+        FacebookUserResponseDTO facebookUser = getRestUser(authRequest);
 
-    public AuthenticationResponseDTO authenticateOrCreateUser(FacebookAuthenticationRequestDTO authRequest) {
-        validateAccessToken(authRequest.accessToken());
-
-        return null;
+        return findUser(facebookUser)
+                .or(() -> Optional.ofNullable(registerUser(facebookUser)))
+                .map(jwtService::generateToken)
+                .orElseThrow(() ->
+                        new InternalServerException("Unable to login facebook user id " + facebookUser.id()))
+                .transform(AuthenticationResponseDTO::new);
     }
 
-    private void validateAccessToken(String accessToken) {
-        FacebookAccessTokenResponseDTO response = restGetAccessToken(accessToken);
-
-        if(!response.data().isValid()){
-            throw new IllegalArgumentException("Access token not valid");
-        }
-        if(response.data().appId() != APP_ID_ON_FACEBOOK){
-            throw new IllegalArgumentException("Access token not valid, wrong app id: " + response.data().appId());
-        }
+    private FacebookUserResponseDTO getRestUser(FacebookLoginRequestDTO authRequest) {
+        return fbRestService.getUser(authRequest.accessToken());
     }
 
-    private FacebookAccessTokenResponseDTO restGetAccessToken(String accessToken) {
-        String url = "https://graph.facebook.com/v16.0/debug_token?input_token=" + accessToken + "&access_token=" + accessToken ;
-
-        return restTemplate.getForObject(
-                url,
-                FacebookAccessTokenResponseDTO.class);
+    private Optional<User> findUser(FacebookUserResponseDTO facebookUser) {
+        return userService.findById(Integer.parseInt(facebookUser.id()));
     }
+
+    private User registerUser(FacebookUserResponseDTO facebookUser) {
+        return userService.registerUser(
+                facebookUser.convertToUser(
+                        passwordGenerator.generatePassword(8)));
+    }
+
 }
 
